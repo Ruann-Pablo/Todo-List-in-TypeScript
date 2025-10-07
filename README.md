@@ -72,8 +72,8 @@ Swagger UI:
 
 -   Utilize a **interface Swagger** para testar todos os endpoints.
 -   Crie um usuário, faça login e copie o token JWT.
--   Clique em **Authorize** no Swagger e cole o token.
--   Teste os endpoints de `projects` e `todos`, observando os dados relacionados via `include`.
+-   Clique em **Authorize** no Swagger e cole o token no formato: `Bearer seu_token_aqui`
+-   Teste os endpoints de `users`, `projects` e `todos`, observando os dados relacionados via `include`.
 
 ---
 
@@ -81,25 +81,38 @@ Swagger UI:
 
 ### 👤 **User**
 
--   `POST /users/register`
--   `POST /users/login`
+-   `POST /users/register` → Registrar novo usuário
+-   `POST /users/login` → Login e geração de token JWT
+-   `GET /users` → Listar todos os usuários (autenticado)
+-   `GET /users/{id}` → Buscar usuário por ID (autenticado)
+-   `PUT /users/{id}` → Atualizar usuário (apenas o próprio usuário)
+-   `DELETE /users/{id}` → Deletar usuário (apenas o próprio usuário)
 
 ### 📁 **Project**
 
--   `GET /projects`
--   `GET /projects/{id}` → inclui `todos` relacionados
--   `POST /projects`
--   `PUT /projects/{id}`
--   `DELETE /projects/{id}`
+-   `GET /projects` → Listar todos os projetos do usuário
+-   `GET /projects/{id}` → Buscar projeto por ID (inclui `todos` relacionados)
+-   `POST /projects` → Criar novo projeto
+-   `PUT /projects/{id}` → Atualizar projeto
+-   `DELETE /projects/{id}` → Deletar projeto
 
 ### 📝 **Todo**
 
--   `GET /todos`
--   `GET /todos/{id}`
--   `POST /todos`
--   `POST /todos/projects/{projectId}` → cria Todo vinculado a um projeto
--   `PUT /todos/{id}`
--   `DELETE /todos/{id}`
+-   `GET /todos` → Listar todos os todos do usuário
+-   `GET /todos/{id}` → Buscar todo por ID
+-   `POST /todos` → Criar novo todo (sem projeto)
+-   `POST /todos/projects/{projectId}` → Criar todo vinculado a um projeto
+-   `PUT /todos/{id}` → Atualizar todo
+-   `DELETE /todos/{id}` → Deletar todo
+
+---
+
+## 🔒 Segurança e Validações
+
+-   **Autenticação JWT**: Todas as rotas de usuários (exceto register e login), projetos e todos são protegidas
+-   **Validação com Zod**: Todos os inputs são validados antes de serem processados
+-   **Autorização**: Usuários só podem acessar, modificar e deletar seus próprios recursos
+-   **Senhas hasheadas**: Utilização de bcrypt para armazenamento seguro de senhas
 
 ---
 
@@ -111,6 +124,7 @@ Este projeto foi desenvolvido como parte de um exercício acadêmico, demonstran
 -   Integração com banco de dados relacional via Prisma ORM
 -   Documentação de API com Swagger
 -   Boas práticas de validação e autenticação
+-   Implementação de relacionamentos e operações CRUD completas
 
 ---
 

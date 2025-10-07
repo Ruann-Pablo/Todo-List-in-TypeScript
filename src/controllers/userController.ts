@@ -3,8 +3,15 @@ import { prisma } from "../prisma";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { RegisterSchema, LoginSchema } from "../schemas/user.schema";
+import { AuthRequest } from "../middleware/auth";
 
 const JWT_SECRET = process.env.JWT_SECRET || "dev_secret";
+
+const USER_SELECT = {
+	id: true,
+	name: true,
+	email: true,
+};
 
 export async function register(req: Request, res: Response) {
 	const parsed = RegisterSchema.safeParse(req.body);
@@ -21,7 +28,7 @@ export async function register(req: Request, res: Response) {
 		const hashed = await bcrypt.hash(password, 10);
 		const user = await prisma.user.create({
 			data: { name, email, password: hashed },
-			select: { id: true, name: true, email: true },
+			select: USER_SELECT,
 		});
 
 		res.status(201).json(user);
@@ -58,5 +65,99 @@ export async function login(req: Request, res: Response) {
 	} catch (err) {
 		console.error(err);
 		res.status(500).json({ error: "Failed to login" });
+	}
+}
+
+export async function getUsers(req: AuthRequest, res: Response) {
+	try {
+		const users = await prisma.user.findMany({
+			select: USER_SELECT,
+			orderBy: { id: "asc" },
+		});
+		res.json(users);
+	} catch (err) {
+		console.error(err);
+		res.status(500).json({ error: "Failed to fetch users" });
+	}
+}
+
+export async function getUser(req: AuthRequest, res: Response) {
+	const id = Number(req.params.id);
+	if (isNaN(id)) return res.status(400).json({ error: "Invalid ID" });
+
+	try {
+		const user = await prisma.user.findUnique({
+			where: { id },
+			select: USER_SELECT,
+		});
+
+		if (!user) return res.status(404).json({ error: "User not found" });
+
+		res.json(user);
+	} catch (err) {
+		console.error(err);
+		res.status(500).json({ error: "Failed to fetch user" });
+	}
+}
+
+export async function updateUser(req: AuthRequest, res: Response) {
+	const id = Number(req.params.id);
+	if (isNaN(id)) return res.status(400).json({ error: "Invalid ID" });
+
+	if (req.userId !== id) {
+		return res.status(403).json({ error: "Forbidden" });
+	}
+
+	const parsed = RegisterSchema.partial().safeParse(req.body);
+	if (!parsed.success) {
+		return res.status(400).json({ error: parsed.error });
+	}
+
+	const { name, email, password } = parsed.data;
+
+	try {
+		if (email) {
+			const existing = await prisma.user.findUnique({ where: { email } });
+			if (existing && existing.id !== id) {
+				return res.status(400).json({ error: "Email already in use" });
+			}
+		}
+
+		const data: any = {};
+		if (name) data.name = name;
+		if (email) data.email = email;
+		if (password) data.password = await bcrypt.hash(password, 10);
+
+		const user = await prisma.user.update({
+			where: { id },
+			data,
+			select: USER_SELECT,
+		});
+
+		res.json(user);
+	} catch (err) {
+		console.error(err);
+		res.status(500).json({ error: "Failed to update user" });
+	}
+}
+
+export async function deleteUser(req: AuthRequest, res: Response) {
+	const id = Number(req.params.id);
+	if (isNaN(id)) return res.status(400).json({ error: "Invalid ID" });
+
+	// Apenas o próprio usuário pode se deletar
+	if (req.userId !== id) {
+		return res.status(403).json({ error: "Forbidden" });
+	}
+
+	try {
+		await prisma.user.delete({
+			where: { id },
+		});
+
+		res.status(204).send();
+	} catch (err) {
+		console.error(err);
+		res.status(500).json({ error: "Failed to delete user" });
 	}
 }
