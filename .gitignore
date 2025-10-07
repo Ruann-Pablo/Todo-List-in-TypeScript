@@ -1,0 +1,43 @@
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment variables
+.env
+.env.*.local
+
+# Build output
+dist/
+build/
+coverage/
+.tmp/
+.temp/
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Prisma
+prisma/generated/
+prisma/migrations/dev.db
+prisma/migrations/
+prisma/dev.db
+*.db-journal
+
+# Logs
+logs/
+*.log
+log.txt
+
+# IDEs & OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Docker
+docker-compose.override.yml
+docker-data/
+.docker/
