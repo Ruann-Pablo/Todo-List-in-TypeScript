@@ -18,5 +18,5 @@ export const LoginSchema = z.object({
 			(val) => /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(val),
 			"Invalid email"
 		),
-	password: z.string().min(6, "Password must be at least 6 characters"),
+	password: z.string().min(5, "Password must be at least 5 characters"),
 });

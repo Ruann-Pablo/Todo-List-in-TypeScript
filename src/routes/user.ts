@@ -2,8 +2,7 @@ import { Router } from "express";
 import {
 	register,
 	login,
-	getUsers,
-	getUser,
+	getMe,
 	updateUser,
 	deleteUser,
 } from "../controllers/userController";
@@ -14,8 +13,7 @@ const router = Router();
 router.post("/register", register);
 router.post("/login", login);
 
-router.get("/", authMiddleware, getUsers);
-router.get("/:id", authMiddleware, getUser);
+router.get("/me", authMiddleware, getMe);
 router.put("/:id", authMiddleware, updateUser);
 router.delete("/:id", authMiddleware, deleteUser);
 

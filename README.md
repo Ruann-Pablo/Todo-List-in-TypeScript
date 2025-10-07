@@ -83,8 +83,6 @@ Swagger UI:
 
 -   `POST /users/register` → Registrar novo usuário
 -   `POST /users/login` → Login e geração de token JWT
--   `GET /users` → Listar todos os usuários (autenticado)
--   `GET /users/{id}` → Buscar usuário por ID (autenticado)
 -   `PUT /users/{id}` → Atualizar usuário (apenas o próprio usuário)
 -   `DELETE /users/{id}` → Deletar usuário (apenas o próprio usuário)
 
@@ -130,7 +128,7 @@ Este projeto foi desenvolvido como parte de um exercício acadêmico, demonstran
 
 ## 📹 Demonstração em Vídeo
 
-👉 [Link para o vídeo no YouTube ou Google Drive](https://exemplo.com)
+👉 [Link para o vídeo no YouTube ou Google Drive](https://youtu.be/3XfN4EPkehM)
 
 ---
 

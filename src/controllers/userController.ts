@@ -68,26 +68,14 @@ export async function login(req: Request, res: Response) {
 	}
 }
 
-export async function getUsers(req: AuthRequest, res: Response) {
-	try {
-		const users = await prisma.user.findMany({
-			select: USER_SELECT,
-			orderBy: { id: "asc" },
-		});
-		res.json(users);
-	} catch (err) {
-		console.error(err);
-		res.status(500).json({ error: "Failed to fetch users" });
+export async function getMe(req: AuthRequest, res: Response) {
+	if (!req.userId) {
+		return res.status(401).json({ error: "Unauthorized" });
 	}
-}
-
-export async function getUser(req: AuthRequest, res: Response) {
-	const id = Number(req.params.id);
-	if (isNaN(id)) return res.status(400).json({ error: "Invalid ID" });
 
 	try {
 		const user = await prisma.user.findUnique({
-			where: { id },
+			where: { id: req.userId },
 			select: USER_SELECT,
 		});
 
@@ -104,6 +92,7 @@ export async function updateUser(req: AuthRequest, res: Response) {
 	const id = Number(req.params.id);
 	if (isNaN(id)) return res.status(400).json({ error: "Invalid ID" });
 
+	// Apenas o próprio usuário pode se atualizar
 	if (req.userId !== id) {
 		return res.status(403).json({ error: "Forbidden" });
 	}
@@ -116,6 +105,7 @@ export async function updateUser(req: AuthRequest, res: Response) {
 	const { name, email, password } = parsed.data;
 
 	try {
+		// Verifica se o email já está em uso por outro usuário
 		if (email) {
 			const existing = await prisma.user.findUnique({ where: { email } });
 			if (existing && existing.id !== id) {
