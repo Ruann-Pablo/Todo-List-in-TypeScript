@@ -1,6 +1,6 @@
 # 📌 API Todo com Express, TypeScript, Prisma, PostgreSQL, Zod e Swagger
 
-Este projeto é uma API RESTful desenvolvida como parte de um exercício acadêmico, atendendo aos seguintes requisitos:
+Este projeto é uma API RESTful desenvolvida atendendo aos seguintes requisitos:
 
 -   Utilização de **ExpressJS**, **TypeScript**, **Prisma**, **PostgreSQL** e **Zod**
 -   Implementação de **3 resources** principais: `User`, `Project` e `Todo`
@@ -116,7 +116,7 @@ Swagger UI:
 
 ## 🧠 Sobre
 
-Este projeto foi desenvolvido como parte de um exercício acadêmico, demonstrando conhecimentos em:
+Este projeto foi desenvolvido, está demonstrando conhecimentos em:
 
 -   Desenvolvimento de APIs RESTful com TypeScript
 -   Integração com banco de dados relacional via Prisma ORM
@@ -128,7 +128,7 @@ Este projeto foi desenvolvido como parte de um exercício acadêmico, demonstran
 
 ## 📹 Demonstração em Vídeo
 
-👉 [Link para o vídeo no YouTube ou Google Drive](https://youtu.be/3XfN4EPkehM)
+👉 [Link para o vídeo no YouTube](https://youtu.be/3XfN4EPkehM)
 
 ---
 
