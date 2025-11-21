@@ -4,7 +4,7 @@ export const registerSchema = z.object({
   name: z.string().min(3, { message: 'Nome muito curto' }),
   email: z.string().email({ message: 'Email inválido' }),
   password: z.string().min(8, { message: 'Senha deve ter no mínimo 8 caracteres' }),
-  confirmPassword: z.string().min(6)
+  confirmPassword: z.string().min(8)
 }).refine((data) => data.password === data.confirmPassword, {
   message: 'Senhas não coincidem',
   path: ['confirmPassword'],

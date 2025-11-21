@@ -1,0 +1,41 @@
+.container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--background-secundary-color);
+  color: var(--primary-color);
+  width: 400px;
+  height: 470px;
+  border-radius: 8px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);;
+  padding: 20px;
+}
+
+.h1{
+  margin-bottom: 20px;
+}
+
+.formgroup {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 2px;
+}
+
+
+.successMsg{
+  background-color: var(--background-sucess);
+  color: #fff;
+  font-weight: 600;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.errorMsg{
+  background-color: var(--background-error);
+  color: #fff;
+  font-weight: 600;
+  padding: 10px;
+  border-radius: 10px;
+}
