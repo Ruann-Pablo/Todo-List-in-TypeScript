@@ -39,3 +39,9 @@
   padding: 10px;
   border-radius: 10px;
 }
+
+.paragraph {
+  margin-top: 15px;
+  font-size: 1.2em;
+  color: var(--primary-color);
+}

@@ -5,9 +5,8 @@ import { loginSchema, type LoginForm } from '../../schemas/AuthSchemas';
 import { Input } from '../../components/form/Input';
 import { SubmitButton } from '../../components/form/SubmitButton';
 import { authService } from '../../services/AuthServices';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import style from './Login.module.css';
-import { set } from 'zod';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -15,28 +14,27 @@ export default function Login() {
   const [messageType, setMessageType] = useState<"success" | "error" | null>(null);
 
   const {
-  register,
-  handleSubmit,
-  formState: { errors, isSubmitting }
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting }
   } = useForm<LoginForm>({ resolver: zodResolver(loginSchema) });
 
   async function onSubmit(data: LoginForm) {
-  try {
-    const res = await authService.login(data);
+    try {
+      const res = await authService.login(data);
+      
+      localStorage.setItem("@token", res.token);
 
-    
-    localStorage.setItem("@token", res.token);
+      setMessageType("success");
+      setMessage("Logado com sucesso!");
 
-    setMessageType("success");
-    setMessage("Logado com sucesso!");
-
-    setTimeout(() => {
-      navigate("/HomePage");
-    }, 2000); 
-  } catch (err: any) {
-    setMessageType("error");
-    setMessage(err?.message || "Erro ao logar");
-  }
+      setTimeout(() => {
+        navigate("/");
+      }, 2000); 
+    } catch (err: any) {
+      setMessageType("error");
+      setMessage(err?.message || "Erro ao logar");
+    }
 }
 
   return (
@@ -57,6 +55,7 @@ export default function Login() {
         <Input id="password" label="Senha" register={register('password')} errors={errors} type="password" />
         <SubmitButton disabled={isSubmitting}>Entrar</SubmitButton>
       </form>
+      <p className={style.paragraph}>Não possui Login? <Link to="/users/register"><strong className='strong'>Registrar</strong></Link></p>
     </div>
     );
 }

@@ -1,0 +1,31 @@
+.card {
+  background: var(--background-secundary-color);
+  color: var(--background-primary-color);
+  border-radius: 12px;
+  padding: 20px;
+  width: 100%;
+  max-width: 350px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.header {
+  justify-content: center;
+}
+
+.icon {
+  font-size: 24px;
+}
+
+
+.description {
+  margin-top: 10px;
+  color: var(--background-primary-color);
+  font-size: 1.1em;
+  font-weight: 600;
+  text-align: center;
+}
+
+.content {
+  margin-top: 15px;
+}

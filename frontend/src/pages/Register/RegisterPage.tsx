@@ -29,7 +29,7 @@ export default function Register() {
       setMessage("Registrado com sucesso!");
 
       setTimeout(() => {
-        navigate("/HomePage");
+        navigate("/");
       }, 1500);
 
     } catch (err: any) {

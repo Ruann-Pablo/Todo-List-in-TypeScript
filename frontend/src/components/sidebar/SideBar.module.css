@@ -1,0 +1,87 @@
+.container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  background: var(--background-primary-color);
+}
+
+/* ===== Sidebar ===== */
+.sidebar {
+  background: var(--background-secundary-color);
+  border-right: 1px solid #e5e7eb;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  gap: 20px;
+  transition: width 0.3s ease;
+  cursor: pointer;
+}
+
+.collapsed {
+  width: 70px;
+}
+
+.expanded {
+  width: 220px;
+  display: flex;
+  align-items: start;
+}
+
+.toggleButton {
+  background: transparent;
+  color: var(--background-button);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toggleText {
+  font-size: 1.3em;
+  font-weight: 600;
+  color: var(--background-primary-color);
+  margin-left: 10px;
+}
+
+/* Menu */
+.menuIcons {
+  display: flex;
+  align-items: start;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.iconBtn {
+  background: transparent;
+  color: var(--background-primary-color);
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+}
+
+.iconBtn:hover {
+  color: var(--background-button);
+}
+
+.userArea {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  border-top: 1px solid #eee;
+  margin-top: auto;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: row;
+}
+
+.userRole {
+  font-size: 12px;
+  color: #777;
+}
+

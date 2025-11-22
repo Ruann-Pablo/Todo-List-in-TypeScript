@@ -1,0 +1,17 @@
+main {
+  display: flex;
+  margin: auto;
+  align-items: center;
+  gap: 200px;
+}
+
+.Button {
+  background: var(--background-button);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 8px;
+  margin: auto;
+  font-weight: bold;
+}
