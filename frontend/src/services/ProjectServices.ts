@@ -8,10 +8,14 @@ export interface ProjectDTO {
 }
 
 export async function createProject(data: ProjectDTO) {
-  const response = await axios.post(API_URL, data, {
-    headers: { "Content-Type": "application/json" },
+  const token = localStorage.getItem("@token");
+
+  return axios.post(API_URL, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
   });
-  return response.data;
 }
 
 export async function getProjects() {

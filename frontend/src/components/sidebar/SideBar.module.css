@@ -38,11 +38,19 @@
   justify-content: center;
 }
 
+.toggleButton:hover {
+  color: var(--background-button);
+}
+
 .toggleText {
   font-size: 1.3em;
   font-weight: 600;
   color: var(--background-primary-color);
   margin-left: 10px;
+}
+
+.toggleText.textTodo {
+  color: var(--background-button);
 }
 
 /* Menu */

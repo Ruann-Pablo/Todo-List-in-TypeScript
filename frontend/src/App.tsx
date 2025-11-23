@@ -9,9 +9,12 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        {/*Rotas Publicas*/}
         <Route path="/users/login" element={<Login />} />
         <Route path="/users/register" element={<Register />} />
+
+        {/*Rotas Privadas*/}
+        <Route path="/" element={<HomePage />} />
         <Route path="/todos" element={<TodosPage />} />
         <Route path="/projects" element={<ProjectsPage />} />
       </Routes>

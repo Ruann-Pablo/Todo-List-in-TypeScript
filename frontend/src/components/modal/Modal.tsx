@@ -28,9 +28,8 @@ export default function Modal({ open, onClose, onSave, Title, redirectTo }: Moda
     e.preventDefault();
     if (isDisabled) return;
 
-    await onSave(taskName);
-    onClose();             
-    navigate(redirectTo);
+    await onSave(taskName);   
+    navigate(redirectTo);     
   }
 
   return (
@@ -45,7 +44,11 @@ export default function Modal({ open, onClose, onSave, Title, redirectTo }: Moda
             onChange={(e: any) => setTaskName(e.target.value)}
           />
 
-          <button type="submit" className={styles.saveButton} disabled={isDisabled}>
+          <button 
+            type="submit" 
+            className={styles.saveButton} 
+            disabled={isDisabled}
+          >
             Salvar
           </button>
         </form>

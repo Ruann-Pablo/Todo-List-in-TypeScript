@@ -22,8 +22,9 @@ export default function Login() {
   async function onSubmit(data: LoginForm) {
     try {
       const res = await authService.login(data);
-      
+
       localStorage.setItem("@token", res.token);
+      localStorage.setItem("@user", JSON.stringify(res.user));
 
       setMessageType("success");
       setMessage("Logado com sucesso!");

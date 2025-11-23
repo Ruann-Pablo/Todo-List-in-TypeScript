@@ -4,10 +4,24 @@ import Card from "../../components/card/Card";
 import Modal from "../../components/modal/Modal";
 import styles from "./Home.module.css";
 import { createProject } from "../../services/ProjectServices";
+import { useAuthGuard } from "../../hooks/useAuthGuard";
 
 export default function HomePage() {
   const [openTaskModal, setOpenTaskModal] = useState(false);
   const [openProjectModal, setOpenProjectModal] = useState(false);
+  const { requireAuth } = useAuthGuard();
+
+  function handleCreateTodo() {
+    requireAuth(() => {
+      setOpenTaskModal(true);
+    });
+  }
+
+  function handleCreateProject() {
+    requireAuth(() => {
+      setOpenProjectModal(true);
+    });
+  }
 
   return (
     <div className={styles.container}>
@@ -17,7 +31,10 @@ export default function HomePage() {
           title="Crie sua tarefa" 
           description="Gerencie suas tarefas de forma eficiente."
         >
-          <button className={styles.Button} onClick={() => setOpenTaskModal(true)}>
+          <button 
+            className={styles.Button} 
+            onClick={handleCreateTodo}
+          >
             Criar Nova Tarefa
           </button>
 
@@ -28,7 +45,7 @@ export default function HomePage() {
             redirectTo="/todos"
             onSave={async (taskName) => {
               await createProject({ name: taskName });
-              setOpenTaskModal(false); // FECHA O MODAL
+              setOpenTaskModal(false); // **IMPORTANTE**
             }}
           />
         </Card>
@@ -37,7 +54,10 @@ export default function HomePage() {
           title="Crie seu projeto" 
           description="Organize seus projetos."
         >
-          <button className={styles.Button} onClick={() => setOpenProjectModal(true)}>
+          <button 
+            className={styles.Button} 
+            onClick={handleCreateProject}
+          >
             Criar Novo Projeto
           </button>
 
@@ -48,7 +68,8 @@ export default function HomePage() {
             redirectTo="/projects"
             onSave={async (projectName) => {
               await createProject({ name: projectName });
-              setOpenProjectModal(false); // FECHA O MODAL
+              console.log("Projeto criado:", projectName);
+              setOpenProjectModal(false); 
             }}
           />
         </Card>
