@@ -1,21 +1,36 @@
 .container {
-  padding: 28px;
+  width: 100%;
+  padding: 40px;
 }
 
 .title {
-  font-size: 1.8rem;
-  margin-bottom: 20px;
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 30px;
+  font-weight: 700;
+  color: var(--background-primary-color);
 }
 
 .grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 18px;
+  gap: 25px;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
-.card {
-  background: white;
-  padding: 18px;
-  border-radius: 14px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+.accessButton {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  background: var(--background-button);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+.accessButton:hover {
+  background: #2c33c4;
 }

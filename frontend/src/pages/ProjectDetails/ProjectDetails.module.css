@@ -1,0 +1,100 @@
+.container {
+  padding: 28px;
+  max-width: 700px;
+  margin: 0 auto;
+  color: black; /* 🔥 Agora todas as letras são pretas */
+}
+
+.card {
+  background: white;
+  border-radius: 10px;
+  padding: 18px;
+  margin-bottom: 20px;
+  box-shadow: 0 8px 30px rgba(3,22,63,0.04);
+}
+
+.projectTitle {
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: black;
+}
+
+.desc {
+  margin-top: 10px;
+  color: #444;
+  font-size: 1.1rem;
+}
+
+.meta {
+  margin-top: 8px;
+  color: #777;
+  font-size: 0.9rem;
+}
+
+/* ----- TODOS CARD ----- */
+.todosList {
+  background: white;
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: 0 8px 30px rgba(3,22,63,0.04);
+  margin-bottom: 22px;
+}
+
+.todosTitle {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: black;
+}
+
+.todoRow {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 6px;
+  border-bottom: 1px solid #eee;
+}
+
+.todoRow:last-child {
+  border-bottom: none;
+}
+
+.todoTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: black;
+}
+
+.todoDate {
+  font-size: 0.9rem;
+  color: #777;
+}
+
+.done {
+  text-decoration: line-through;
+  color: #999;
+}
+
+/* ----- SEM TODOS ----- */
+.noTodos {
+  margin-top: 10px;
+  color: #777;
+}
+
+/* ----- BOTÃO VOLTAR ----- */
+.backButton {
+  width: 100%;
+  background: var(--background-button);
+  color: white;
+  border: none;
+  padding: 14px;
+  font-size: 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+  margin-top: 25px;
+}
+
+.backButton:hover {
+  opacity: 0.9;
+}
