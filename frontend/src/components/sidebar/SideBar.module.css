@@ -94,10 +94,13 @@
   color: var(--secundary-color);
 }
 
+/* O main deve controlar apenas o espaço do conteúdo */
 main {
-  flex: 1;                 /* Faz o main ocupar todo o espaço restante */
-  padding: 40px;           /* Dá respiro */
-  display: flex;           /* Permite centralizar */
-  justify-content: center; /* Centraliza igual ao Figma */
-  overflow-y: auto;        /* Permite scroll sem quebrar layout */
+  flex: 1;
+  padding: 40px;
+  display: flex;
+  justify-content: center;   /* Centraliza horizontalmente */
+  align-items: flex-start;   /* Não força ficar no topo */
+  overflow-y: auto;
 }
+

@@ -1,8 +1,10 @@
-main {
+.container {
   display: flex;
-  margin: auto;
-  align-items: center;
-  gap: 200px;
+  justify-content: center; /* Centraliza na horizontal */
+  align-items: center;     /* Centraliza na vertical */
+  gap: 80px;
+  height: 100%;
+  width: 100%;
 }
 
 .Button {
@@ -12,6 +14,10 @@ main {
   padding: 10px 20px;
   cursor: pointer;
   border-radius: 8px;
-  margin: auto;
+  margin-top: 15px;
   font-weight: bold;
+}
+
+.Button:hover {
+  background: #2c33c4;
 }

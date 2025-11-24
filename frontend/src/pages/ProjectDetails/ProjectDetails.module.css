@@ -2,9 +2,10 @@
   padding: 28px;
   max-width: 700px;
   margin: 0 auto;
-  color: black; /* 🔥 Agora todas as letras são pretas */
+  color: black; /* 🔥 Todas as letras pretas */
 }
 
+/* ----- CARD DO PROJETO ----- */
 .card {
   background: white;
   border-radius: 10px;
@@ -32,7 +33,44 @@
   font-size: 0.9rem;
 }
 
-/* ----- TODOS CARD ----- */
+/* ----- BOTÕES EDITAR / EXCLUIR ----- */
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.editButton {
+  padding: 6px 14px;
+  background: #e0e7ff;
+  color: #1d1d1f;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.editButton:hover {
+  background: #c7d2fe;
+}
+
+.deleteButton {
+  padding: 6px 14px;
+  background: #fee2e2;
+  color: #b91c1c;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.deleteButton:hover {
+  background: #fecaca;
+}
+
+/* ----- CARD DOS TODOS ----- */
 .todosList {
   background: white;
   border-radius: 10px;
@@ -75,7 +113,7 @@
   color: #999;
 }
 
-/* ----- SEM TODOS ----- */
+/* ----- TEXTO QUANDO NÃO HÁ TODOS ----- */
 .noTodos {
   margin-top: 10px;
   color: #777;

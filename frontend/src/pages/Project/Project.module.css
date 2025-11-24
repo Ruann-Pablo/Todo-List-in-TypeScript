@@ -8,7 +8,7 @@
   font-size: 2rem;
   margin-bottom: 30px;
   font-weight: 700;
-  color: var(--background-primary-color);
+  color: black; 
 }
 
 .grid {

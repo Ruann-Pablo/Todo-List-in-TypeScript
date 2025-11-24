@@ -12,30 +12,23 @@ export default function HomePage() {
   const { requireAuth } = useAuthGuard();
 
   function handleCreateTodo() {
-    requireAuth(() => {
-      setOpenTaskModal(true);
-    });
+    requireAuth(() => setOpenTaskModal(true));
   }
 
   function handleCreateProject() {
-    requireAuth(() => {
-      setOpenProjectModal(true);
-    });
+    requireAuth(() => setOpenProjectModal(true));
   }
 
   return (
-    <div className={styles.container}>
-      <SidebarLayout>
+    <SidebarLayout>
+      <div className={styles.container}>
 
         <Card 
           title="Crie sua tarefa" 
           description="Gerencie suas tarefas de forma eficiente."
         >
-          <button 
-            className={styles.Button} 
-            onClick={handleCreateTodo}
-          >
-            Criar Nova Tarefa
+          <button className={styles.Button} onClick={handleCreateTodo}>
+            Criar Nova
           </button>
 
           <Modal
@@ -45,7 +38,7 @@ export default function HomePage() {
             redirectTo="/todos"
             onSave={async (taskName) => {
               await ProjectService.create({ name: taskName });
-              setOpenTaskModal(false); // **IMPORTANTE**
+              setOpenTaskModal(false);
             }}
           />
         </Card>
@@ -54,10 +47,7 @@ export default function HomePage() {
           title="Crie seu projeto" 
           description="Organize seus projetos."
         >
-          <button 
-            className={styles.Button} 
-            onClick={handleCreateProject}
-          >
+          <button className={styles.Button} onClick={handleCreateProject}>
             Criar Novo Projeto
           </button>
 
@@ -68,13 +58,12 @@ export default function HomePage() {
             redirectTo="/projects"
             onSave={async (projectName) => {
               await ProjectService.create({ name: projectName });
-              console.log("Projeto criado:", projectName);
-              setOpenProjectModal(false); 
+              setOpenProjectModal(false);
             }}
           />
         </Card>
 
-      </SidebarLayout>
-    </div>
+      </div>
+    </SidebarLayout>
   );
 }
