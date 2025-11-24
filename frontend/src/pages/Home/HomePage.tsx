@@ -3,7 +3,7 @@ import SidebarLayout from "../../components/sidebar/SideBar";
 import Card from "../../components/card/Card";
 import Modal from "../../components/modal/Modal";
 import styles from "./Home.module.css";
-import { createProject } from "../../services/ProjectServices";
+import { ProjectService } from "../../services/ProjectServices";
 import { useAuthGuard } from "../../hooks/useAuthGuard";
 
 export default function HomePage() {
@@ -44,7 +44,7 @@ export default function HomePage() {
             Title="Criar nova tarefa"
             redirectTo="/todos"
             onSave={async (taskName) => {
-              await createProject({ name: taskName });
+              await ProjectService.create({ name: taskName });
               setOpenTaskModal(false); // **IMPORTANTE**
             }}
           />
@@ -67,7 +67,7 @@ export default function HomePage() {
             Title="Criar novo projeto"
             redirectTo="/projects"
             onSave={async (projectName) => {
-              await createProject({ name: projectName });
+              await ProjectService.create({ name: projectName });
               console.log("Projeto criado:", projectName);
               setOpenProjectModal(false); 
             }}

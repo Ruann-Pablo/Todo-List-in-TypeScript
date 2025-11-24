@@ -3,39 +3,51 @@ import axios from "axios";
 const API_URL = "http://localhost:4000/projects";
 
 export interface ProjectDTO {
-  id?: string;
+  id: number;
   name: string;
+  description?: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
-export async function createProject(data: ProjectDTO) {
-  const token = localStorage.getItem("@token");
+export const ProjectService = {
+  async getAll(): Promise<ProjectDTO[]> {
+    const token = localStorage.getItem("@token");
+    const res = await axios.get(API_URL, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return res.data;
+  },
 
-  return axios.post(API_URL, data, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-  });
-}
+  async getById(id: number): Promise<ProjectDTO> {
+    const token = localStorage.getItem("@token");
+    const res = await axios.get(`${API_URL}/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return res.data;
+  },
 
-export async function getProjects() {
-  const response = await axios.get(API_URL);
-  return response.data;
-}
+  async create(data: { name: string; description?: string }) {
+    const token = localStorage.getItem("@token");
+    const res = await axios.post(API_URL, data, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return res.data;
+  },
 
-export async function getProjectById(id: string) {
-  const response = await axios.get(`${API_URL}/${id}`);
-  return response.data;
-}
+  async update(id: number, data: { name?: string; description?: string }) {
+    const token = localStorage.getItem("@token");
+    const res = await axios.put(`${API_URL}/${id}`, data, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return res.data;
+  },
 
-export async function updateProject(id: string, data: ProjectDTO) {
-  const response = await axios.put(`${API_URL}/${id}`, data, {
-    headers: { "Content-Type": "application/json" },
-  });
-  return response.data;
-}
-
-export async function deleteProject(id: string) {
-  const response = await axios.delete(`${API_URL}/${id}`);
-  return response.data;
-}
+  async delete(id: number) {
+    const token = localStorage.getItem("@token");
+    const res = await axios.delete(`${API_URL}/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return res.data;
+  },
+};
