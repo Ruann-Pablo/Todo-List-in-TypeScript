@@ -24,6 +24,7 @@ export default function Register() {
       const res = await authService.register(data);
 
       localStorage.setItem("@token", res.token);
+      localStorage.setItem("@user", JSON.stringify(res.user));
 
       setMessageType("success");
       setMessage("Registrado com sucesso!");
@@ -33,8 +34,17 @@ export default function Register() {
       }, 1500);
 
     } catch (err: any) {
+      const backendError = err?.response?.data?.error;
+
       setMessageType("error");
-      setMessage(err?.message || "Erro ao registrar");
+
+      if (typeof backendError === "string") {
+        setMessage(backendError);
+      } else if (backendError?.issues) {
+        setMessage(backendError.issues[0].message);
+      } else {
+        setMessage("Erro ao registrar");
+      }
     }
   }
 

@@ -4,6 +4,7 @@ import Register from "./pages/Register/RegisterPage";
 import HomePage from "./pages/Home/HomePage";
 import TodosPage from "./pages/Todos/TodosPage";
 import ProjectsPage from "./pages/Project/ProjectPage";
+import UserPage from "./pages/User/UserPage";
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/todos" element={<TodosPage />} />
         <Route path="/projects" element={<ProjectsPage />} />
+        <Route path="/users" element={<UserPage />} />
       </Routes>
     </BrowserRouter>
   );

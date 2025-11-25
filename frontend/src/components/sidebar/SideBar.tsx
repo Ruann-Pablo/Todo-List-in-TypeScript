@@ -34,6 +34,12 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
     });
   }
 
+  function handleNavigateToUsers() {
+    requireAuth(() => {
+      navigate("/users");
+    });
+  }
+
   return (
     <div className={styles.container}>
       <aside onClick={() => setCollapsed(!collapsed)}
@@ -53,12 +59,12 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
         </nav>
 
         <div className={styles.userArea}>
-          <button className={styles.iconBtn}>
+          <button className={styles.iconBtn} onClick={handleNavigateToUsers}>
             <div className={styles.userInfo}>
               <User />
               {!collapsed && (
                 <div className={styles.userInfo}>
-                  <span className={styles.toggleText}>{loggedUser?.name}</span>
+                  <span className={styles.toggleText}>{loggedUser?.name || "visitante"}</span>
                 </div>
               )}
             </div>

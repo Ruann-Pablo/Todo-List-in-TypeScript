@@ -33,8 +33,16 @@ export default function Login() {
         navigate("/");
       }, 2000); 
     } catch (err: any) {
+
       setMessageType("error");
-      setMessage(err?.message || "Erro ao logar");
+
+      if (err.response?.status === 400) {
+        setMessage("Credenciais inválidas");
+      } else if (err.response?.status === 401) {
+        setMessage("Não autorizado");
+      } else {
+        setMessage("Erro ao logar");
+      }
     }
 }
 

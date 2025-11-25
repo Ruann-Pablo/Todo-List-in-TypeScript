@@ -15,5 +15,12 @@ export const loginSchema = z.object({
   password: z.string().min(8, { message: 'Senha deve ter no mínimo 8 caracteres' }),
 });
 
+export const UpdateUserSchema = z.object({
+  name: z.string().min(3, "Nome muito curto").optional(),
+  email: z.string().email("Email inválido").optional(),
+  password: z.string().min(8, "Senha deve ter no mínimo 8 caracteres").optional(),
+});
+
 export type RegisterForm = z.infer<typeof registerSchema>;
 export type LoginForm = z.infer<typeof loginSchema>;
+export type UpdateUserForm = z.infer<typeof UpdateUserSchema>;

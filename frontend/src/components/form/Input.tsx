@@ -9,6 +9,7 @@ type Props = {
   errors?: FieldErrors;
   type?: string;
   value?: string;
+  name?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
@@ -38,6 +39,7 @@ export const Input: React.FC<Props> = ({
         className={style.input}
         value={value}
         onChange={onChange}
+        name={id}
       />
 
       {err && (
