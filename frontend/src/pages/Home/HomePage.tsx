@@ -4,6 +4,7 @@ import Card from "../../components/card/Card";
 import Modal from "../../components/modal/Modal";
 import styles from "./Home.module.css";
 import { ProjectService } from "../../services/ProjectServices";
+import { TodoService } from "../../services/TodoServices";
 import { useAuthGuard } from "../../hooks/useAuthGuard";
 
 export default function HomePage() {
@@ -23,6 +24,7 @@ export default function HomePage() {
     <SidebarLayout>
       <div className={styles.container}>
 
+        {/* Criar Tarefa */}
         <Card 
           title="Crie sua tarefa" 
           description="Gerencie suas tarefas de forma eficiente."
@@ -37,12 +39,13 @@ export default function HomePage() {
             Title="Criar nova tarefa"
             redirectTo="/todos"
             onSave={async (taskName) => {
-              await ProjectService.create({ name: taskName });
+              await TodoService.create({ title: taskName });
               setOpenTaskModal(false);
             }}
           />
         </Card>
 
+        {/* Criar Projeto */}
         <Card 
           title="Crie seu projeto" 
           description="Organize seus projetos."
@@ -67,3 +70,4 @@ export default function HomePage() {
     </SidebarLayout>
   );
 }
+git 
