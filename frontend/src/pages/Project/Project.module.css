@@ -3,14 +3,46 @@
   padding: 40px;
 }
 
-.title {
-  text-align: center;
-  font-size: 2rem;
+/* 🔥 Linha do título + botão */
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 30px;
-  font-weight: 700;
-  color: black; 
+  width: 100%;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
+/* Estilo do título igual ao restante do sistema */
+.title {
+  text-align: left;
+  font-size: 2rem;
+  font-weight: 700;
+  color: black;
+}
+
+/* 🔥 Botão roxo no canto direito */
+.createButton {
+  background: var(--background-button);
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+  box-shadow: 0 4px 10px rgba(60, 75, 255, 0.25);
+  transition: 0.2s ease-in-out;
+}
+
+.createButton:hover {
+  background: #2c33c4;
+  transform: translateY(-2px);
+}
+
+/* Grid de projetos */
 .grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -19,6 +51,7 @@
   margin: 0 auto;
 }
 
+/* Botão "Acessar" */
 .accessButton {
   width: 100%;
   padding: 12px;

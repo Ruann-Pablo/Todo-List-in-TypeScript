@@ -5,10 +5,12 @@ import Card from "../../components/card/Card";
 import { ProjectService } from "../../services/ProjectServices";
 import type { ProjectDTO } from "../../services/ProjectServices";
 import styles from "./Project.module.css";
+import Modal from "../../components/modal/Modal";
 
 export default function ProjectsPage() {
   const [projects, setProjects] = useState<ProjectDTO[]>([]);
   const [loading, setLoading] = useState(true);
+  const [openModal, setOpenModal] = useState(false);
   const navigate = useNavigate();
 
   async function loadProjects() {
@@ -30,14 +32,29 @@ export default function ProjectsPage() {
   return (
     <SidebarLayout>
       <div className={styles.container}>
-        <h1 className={styles.title}>Seus Projetos</h1>
+
+        {/* 🔥 Título + Botão no canto direito */}
+        <div className={styles.headerRow}>
+          <h1 className={styles.title}>Seus Projetos</h1>
+
+          <button
+            className={styles.createButton}
+            onClick={() => setOpenModal(true)}
+          >
+            Criar Novo Projeto
+          </button>
+        </div>
 
         {loading ? (
           <p>Carregando...</p>
         ) : (
           <div className={styles.grid}>
             {projects.map((p) => (
-              <Card key={p.id} title={p.name} description={p.description ?? "Sem descrição"}>
+              <Card
+                key={p.id}
+                title={p.name}
+                description={p.description ?? "Sem descrição"}
+              >
                 <button
                   className={styles.accessButton}
                   onClick={() => navigate(`/projects/${p.id}`)}
@@ -48,6 +65,19 @@ export default function ProjectsPage() {
             ))}
           </div>
         )}
+
+        {/* Modal de criação */}
+        <Modal
+          open={openModal}
+          onClose={() => setOpenModal(false)}
+          Title="Criar novo projeto"
+          redirectTo="/projects"
+          onSave={async (projectName) => {
+            await ProjectService.create({ name: projectName });
+            setOpenModal(false);
+            loadProjects(); // atualiza lista automaticamente
+          }}
+        />
       </div>
     </SidebarLayout>
   );
