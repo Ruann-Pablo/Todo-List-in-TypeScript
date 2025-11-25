@@ -3,7 +3,7 @@
   padding: 40px;
 }
 
-/* 🔥 Linha do título + botão */
+/* Linha do título + botão */
 .headerRow {
   display: flex;
   justify-content: space-between;
@@ -20,10 +20,10 @@
   text-align: left;
   font-size: 2rem;
   font-weight: 700;
-  color: black;
+  color: white;
 }
 
-/* 🔥 Botão roxo no canto direito */
+/* Botão - Cria Novo Projeto */
 .createButton {
   background: var(--background-button);
   color: white;

@@ -8,6 +8,7 @@ export interface TodoDTO {
   description?: string;
   done: boolean;
   createdAt: string;
+  projectId?: number | null; // ✅ obrigatório para poder filtrar e vincular
 }
 
 export const TodoService = {
@@ -27,7 +28,7 @@ export const TodoService = {
     return res.data;
   },
 
-  async create(data: { title: string; description?: string }) {
+  async create(data: { title: string; description?: string; projectId?: number | null }) {
     const token = localStorage.getItem("@token");
     const res = await axios.post(API_URL, data, {
       headers: { Authorization: `Bearer ${token}` },
@@ -35,7 +36,7 @@ export const TodoService = {
     return res.data;
   },
 
-  async update(id: number, data: { title?: string; description?: string; done?: boolean }) {
+  async update(id: number, data: { title?: string; description?: string; done?: boolean; projectId?: number | null }) {
     const token = localStorage.getItem("@token");
     const res = await axios.put(`${API_URL}/${id}`, data, {
       headers: { Authorization: `Bearer ${token}` },
