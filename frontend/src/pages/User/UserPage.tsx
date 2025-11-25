@@ -92,10 +92,15 @@ export default function UserPage() {
   }
 
   function handleLogout() {
-    localStorage.removeItem("@token");
-    localStorage.removeItem("@user");
+    setMessage("Saindo da conta...");
+    setMessageType("success");
+    
+    setTimeout(() => {
+      localStorage.removeItem("@token");
+      localStorage.removeItem("@user");
 
-    navigate("/");
+      navigate("/");
+    }, 1500);
   }
 
   if (!user) return navigate("/");

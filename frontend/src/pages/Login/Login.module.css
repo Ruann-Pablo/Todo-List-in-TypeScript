@@ -14,6 +14,7 @@
 
 .h1{
   margin-bottom: 20px;
+  color: var(--secundary-color);
 }
 
 .formgroup {
@@ -21,12 +22,12 @@
   flex-direction: column;
   width: 100%;
   gap: 2px;
+  color: var(--secundary-color);
 }
-
 
 .successMsg{
   background-color: var(--background-sucess);
-  color: #fff;
+  color: var(--background-secundary-color);
   font-weight: 600;
   padding: 10px;
   border-radius: 10px;
@@ -34,7 +35,7 @@
 
 .errorMsg{
   background-color: var(--background-error);
-  color: #fff;
+  color: var(--background-secundary-color);
   font-weight: 600;
   padding: 10px;
   border-radius: 10px;
@@ -43,5 +44,5 @@
 .paragraph {
   margin-top: 15px;
   font-size: 1.2em;
-  color: var(--primary-color);
+  color: var(--secundary-color);
 }

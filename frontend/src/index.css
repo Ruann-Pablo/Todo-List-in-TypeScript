@@ -28,7 +28,11 @@
 }
 
 body{
-  background-color: var(--background-primary-color);
+  background-image: url('background.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;

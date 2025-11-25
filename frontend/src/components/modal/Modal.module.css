@@ -8,8 +8,8 @@
 }
 
 .modal {
-  background: white;
-  color: var(--background-primary-color);
+  background: var(--background-secundary-color);
+  color: var(--secundary-color);
   padding: 24px;
   border-radius: 12px;
   width: 350px;
@@ -32,12 +32,13 @@ h2{
 .input {
   padding: 10px;
   border-radius: 8px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--background-secundary-color);
 }
 
 .saveButton {
   background: var(--background-button);
-  color: white;
+  color: var(--background-secundary-color);
+  font-weight: 600;
   border: none;
   padding: 10px;
   border-radius: 8px;

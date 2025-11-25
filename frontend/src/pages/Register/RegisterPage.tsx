@@ -7,6 +7,7 @@ import { SubmitButton } from '../../components/form/SubmitButton';
 import { authService } from '../../services/AuthServices';
 import { useNavigate } from 'react-router-dom';
 import style from './Register.module.css';
+import { ArrowBigLeft } from "lucide-react";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -96,6 +97,7 @@ export default function Register() {
           Registrar
         </SubmitButton>
       </form>
+      <button onClick={() => navigate('/users/login')} className={style.closeButton}><ArrowBigLeft /></button>
     </div>
   );
 }

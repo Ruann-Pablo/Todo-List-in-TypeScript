@@ -14,6 +14,7 @@
 
 .h1{
   margin-bottom: 5px;
+  color: var(--secundary-color);
 }
 
 .formgroup {
@@ -21,11 +22,12 @@
   flex-direction: column;
   width: 100%;
   gap: 2px;
+  color: var(--secundary-color);
 }
 
 .successMsg{
   background-color: var(--background-sucess);
-  color: #fff;
+  color: var(--background-secundary-color);
   font-weight: 600;
   padding: 10px;
   border-radius: 10px;
@@ -33,8 +35,17 @@
 
 .errorMsg{
   background-color: var(--background-error);
-  color: #fff;
+  color: var(--background-secundary-color);
   font-weight: 600;
   padding: 10px;
   border-radius: 10px;
 }
+
+.closeButton {
+  display: block;
+  margin: 20px auto;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--background-error);
+} 
