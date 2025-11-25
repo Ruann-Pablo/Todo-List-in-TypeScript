@@ -7,7 +7,7 @@ const TODO_SELECT = {
 	id: true,
 	title: true,
 	description: true,
-	done: false,
+	done: true,
 	createdAt: true,
 	updatedAt: true,
 	projectId: true,

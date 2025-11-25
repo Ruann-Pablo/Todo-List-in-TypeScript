@@ -102,5 +102,6 @@ main {
   justify-content: center;   /* Centraliza horizontalmente */
   align-items: flex-start;   /* Não força ficar no topo */
   overflow-y: auto;
+  color: black;
 }
 
