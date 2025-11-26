@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./Modal.module.css";
 
 type Props = {
@@ -41,13 +40,13 @@ export default function ConfirmModal({
         {message && <p style={{ marginTop: 8 }}>{message}</p>}
 
         <div style={{ display: "flex", gap: 12, marginTop: 16, justifyContent: "flex-end" }}>
-          <button onClick={onClose} style={{ padding: "8px 14px", borderRadius: 8, border: "1px solid #ccc", background: "transparent" }}>
+          <button onClick={onClose} className={styles.cancel}>
             {cancelLabel}
           </button>
           <button
             onClick={handleConfirm}
             disabled={loading}
-            style={{ padding: "8px 14px", borderRadius: 8, background: "#c0392b", color: "#fff", border: "none" }}
+            className={styles.confirmDelete}
           >
             {loading ? "Deleting..." : confirmLabel}
           </button>

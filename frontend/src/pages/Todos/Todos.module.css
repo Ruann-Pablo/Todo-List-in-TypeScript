@@ -33,16 +33,20 @@
 }
 
 .search input {
+  background-color: var(--background-secundary);
+  color: var(--secundary-color);
   padding: 10px 14px;
   border-radius: 10px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--secundary-color);
   width: 220px;
 }
 
 .select {
+  background-color: var(--background-secundary);
+  color: var(--secundary-color);
   padding: 10px 14px;
   border-radius: 10px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--secundary-color);
 }
 
 /* TABELA */
@@ -79,12 +83,12 @@
 }
 
 .badgeDone {
-  background-color: #86efac;
+  background-color: var(--background-sucess);
   color: #065f46;
 }
 
 .badgeUndone {
-  background: #fca5a5;
+  background: var(--background-error);
   color: #7f1d1d;
 }
 
@@ -101,9 +105,17 @@
   background: none;
   border: none;
   cursor: pointer;
-  color: #555;
   font-size: 1.1rem;
   margin-right: 8px;
+}
+
+.pen{
+  color: var(--background-button);
+}
+
+.trash{
+  background-color: transparent;
+  color: var(--background-error);
 }
 
 .actionsCol {

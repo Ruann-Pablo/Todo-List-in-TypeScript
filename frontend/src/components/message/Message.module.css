@@ -1,0 +1,14 @@
+.successMsg{
+  background-color: var(--background-sucess);
+  color: var(--background-secundary-color);
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 16px;
+}
+
+.errorMsg{
+  background-color: var(--background-error);
+  color: var(--background-secundary-color);
+  padding: 10px;
+  border-radius: 4px;
+}

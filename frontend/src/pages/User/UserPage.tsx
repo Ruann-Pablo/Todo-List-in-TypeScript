@@ -1,12 +1,14 @@
 import Sidebar from "../../components/sidebar/SideBar"; 
 import Card from "../../components/card/Card";
 import {Input} from "../../components/form/Input";
-import { SubmitButton } from "../../components/form/SubmitButton";
+import { SubmitButton } from "../../components/buttons/SubmitButton";
 import { useEffect, useState } from "react";
 import { userService } from "../../services/UserServices";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import style from "./User.module.css";
-import { CircleX } from "lucide-react";
+import CloseButton from "../../components/buttons/CloseButton";
+import Message from "../../components/message/Message";
+import ConfirmModal from "../../components/modal/ConfirmModal";
 
 export default function UserPage() {
   const [user, setUser] = useState<any>(null);
@@ -17,6 +19,8 @@ export default function UserPage() {
   });
   const [message, setMessage] = useState<string | null>(null);
   const [messageType, setMessageType] = useState<"success" | "error" | null>(null);
+  const [openConfirmDelete, setOpenConfirmDelete] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
 
   const navigate = useNavigate();
@@ -70,26 +74,33 @@ export default function UserPage() {
   }
 }
 
+  async function handleDeleteConfirm() {
+  if (!user) return;
 
-  async function handleDelete() {
-    try {
-      setMessage("Conta deletada com sucesso!");
-      setMessageType("success");
+  setDeleting(true);
 
-      setTimeout(async () => {
-        await userService.deleteUser(user.id);
+  try {
+    await userService.deleteUser(user.id);
 
-      localStorage.removeItem("@token");
-      localStorage.removeItem("@user");
+    localStorage.removeItem("@token");
+    localStorage.removeItem("@user");
 
+    setMessage("Conta deletada com sucesso!");
+    setMessageType("success");
+
+    setTimeout(() => {
       navigate("/");
-      }, 2000);
-    } catch (error) {
-      console.log(error);
-      setMessage("Erro ao deletar conta");
-      setMessageType("error");
-    }
+    }, 1500);
+  } catch (error) {
+    console.error(error);
+    setMessage("Erro ao deletar conta");
+    setMessageType("error");
+  } finally {
+    setDeleting(false);
+    setOpenConfirmDelete(false);
   }
+}
+
 
   function handleLogout() {
     setMessage("Saindo da conta...");
@@ -103,7 +114,7 @@ export default function UserPage() {
     }, 1500);
   }
 
-  if (!user) return navigate("/");
+  if (!user) return <Navigate to="/" replace />;
 
   return (
     <Sidebar>
@@ -111,13 +122,7 @@ export default function UserPage() {
         title="Gerenciar Conta"
         description="Atualize suas informações de usuário."
       >
-        {message && (
-        <p className={
-          messageType === "success" ? style.successMsg : style.errorMsg
-        }>
-          {message}
-        </p>
-      )}
+        <Message message={message} type={messageType ?? undefined} />
 
         <form onSubmit={handleSubmit}>
           <Input
@@ -145,9 +150,27 @@ export default function UserPage() {
           />
           <SubmitButton>Salvar Alterações</SubmitButton>
         </form>
-          <button onClick={handleDelete} className={style.deleteButton}>Deletar Conta</button>
+          <button
+            onClick={() => setOpenConfirmDelete(true)}
+            className={style.deleteButton}
+          >
+            Deletar Conta
+          </button>
+
+          <ConfirmModal
+            open={openConfirmDelete}
+            title="Deseja realmente deletar sua conta?"
+            message="Esta ação não pode ser desfeita."
+            confirmLabel="Deletar"
+            cancelLabel="Cancelar"
+            loading={deleting}
+            onClose={() => setOpenConfirmDelete(false)}
+            onConfirm={handleDeleteConfirm}
+          />
+
+
           <button onClick={handleLogout} className={style.deleteButton}>Sair da Conta</button>
-          <button onClick={() => navigate('/')} className={style.closeButton}><CircleX /></button>
+          <CloseButton to="/" />
 
       </Card>
     </Sidebar>

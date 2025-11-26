@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
-import styles from "./AddExistingTodoModal.module.css";
+import { useEffect, useState } from "react";
+import styles from "./Modal.module.css";
 import { TodoService, type TodoDTO } from "../../services/TodoServices";
+import CloseButton from "../buttons/CloseButton";
 
 interface Props {
   open: boolean;
@@ -56,7 +57,7 @@ export default function AddExistingTodoModal({ open, onClose, projectId, onAdded
           </ul>
         )}
 
-        <button className={styles.closeBtn} onClick={onClose}>Fechar</button>
+        <CloseButton to="/projects"/>
       </div>
     </div>
   );

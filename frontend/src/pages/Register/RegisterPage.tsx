@@ -3,11 +3,12 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { registerSchema, type RegisterForm } from '../../schemas/AuthSchemas';
 import { Input } from '../../components/form/Input';
-import { SubmitButton } from '../../components/form/SubmitButton';
+import { SubmitButton } from '../../components/buttons/SubmitButton';
 import { authService } from '../../services/AuthServices';
 import { useNavigate } from 'react-router-dom';
 import style from './Register.module.css';
 import { ArrowBigLeft } from "lucide-react";
+import Message from "../../components/message/Message";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -54,13 +55,7 @@ export default function Register() {
       <h1 className={style.h1}>Cadastro</h1>
 
       {/* Mensagem de sucesso ou error */}
-      {message && (
-        <p className={
-          messageType === "success" ? style.successMsg : style.errorMsg
-        }>
-          {message}
-        </p>
-      )}
+      <Message message={message} type={messageType ?? undefined} />
 
       <form onSubmit={handleSubmit(onSubmit)} className={style.formgroup}>
         <Input 

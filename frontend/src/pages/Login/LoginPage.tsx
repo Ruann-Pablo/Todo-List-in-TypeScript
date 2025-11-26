@@ -3,10 +3,11 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema, type LoginForm } from '../../schemas/AuthSchemas';
 import { Input } from '../../components/form/Input';
-import { SubmitButton } from '../../components/form/SubmitButton';
+import { SubmitButton } from '../../components/buttons/SubmitButton';
 import { authService } from '../../services/AuthServices';
 import { useNavigate, Link } from 'react-router-dom';
 import style from './Login.module.css';
+import Message from "../../components/message/Message";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -51,13 +52,7 @@ export default function Login() {
       <h1 className={style.h1}>Login</h1>
 
       {/* Mensagem de sucesso ou error */}
-      {message && (
-        <p className={
-          messageType === "success" ? style.successMsg : style.errorMsg
-        }>
-          {message}
-        </p>
-      )}
+      <Message message={message} type={messageType ?? undefined} />
 
       <form onSubmit={handleSubmit(onSubmit)} className={style.formgroup}>
         <Input id="email" label="Email" register={register('email')} errors={errors} />

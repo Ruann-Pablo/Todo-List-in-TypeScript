@@ -5,7 +5,7 @@ import Card from "../../components/card/Card";
 import { ProjectService } from "../../services/ProjectServices";
 import type { ProjectDTO } from "../../services/ProjectServices";
 import styles from "./Project.module.css";
-import Modal from "../../components/modal/Modal";
+import Modal from "../../components/modal/CreateModal";
 
 export default function ProjectsPage() {
   const [projects, setProjects] = useState<ProjectDTO[]>([]);

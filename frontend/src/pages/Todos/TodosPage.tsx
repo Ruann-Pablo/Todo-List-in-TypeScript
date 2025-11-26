@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import SidebarLayout from "../../components/sidebar/SideBar";
 import styles from "./Todos.module.css";
 import { TodoService } from "../../services/TodoServices";
 import type { TodoDTO } from "../../services/TodoServices";
-import Modal from "../../components/modal/Modal";
+import Modal from "../../components/modal/CreateModal";
 import ConfirmModal from "../../components/modal/ConfirmModal";
 import { useAuthGuard } from "../../hooks/useAuthGuard";
+import { Pen, Trash} from "lucide-react"
+import { redirect } from "react-router-dom";
 
 export default function TodosPage() {
   const [todos, setTodos] = useState<TodoDTO[]>([]);
@@ -65,7 +67,7 @@ export default function TodosPage() {
   }
 
   // EDIT
-  async function handleEditSave(payload: { title: string; description?: string }) {
+  async function handleEditSave(payload: { title: string;}) {
     if (!editTodo) return;
     try {
       await TodoService.update(editTodo.id, payload);
@@ -181,23 +183,23 @@ export default function TodosPage() {
 
                     <td className={styles.actionsCol}>
                       <button
-                        className={styles.iconBtn}
+                        className={`${styles.iconBtn} ${styles.pen}`}
                         onClick={() => {
                           setEditTodo(t);
                           setOpenEdit(true);
                         }}
                       >
-                        ✎
+                        <Pen />
                       </button>
 
                       <button
-                        className={styles.iconBtn}
+                        className={`${styles.iconBtn} ${styles.trash}`}
                         onClick={() => {
                           setTodoToDelete(t);
                           setOpenDelete(true);
                         }}
                       >
-                        🗑️
+                        <Trash />
                       </button>
                     </td>
                   </tr>
@@ -222,6 +224,7 @@ export default function TodosPage() {
         onSave={(title: string, description?: string) =>
           handleCreate({ title, description })
         }
+        redirectTo="/todos"
       />
 
       {editTodo && (
@@ -233,12 +236,12 @@ export default function TodosPage() {
           }}
           Title="Editar pendência"
           initial={{
-            title: editTodo.title,
-            description: editTodo.description ?? "",
+            title: editTodo.title
           }}
-          onSave={(title: string, description?: string) =>
-            handleEditSave({ title, description })
+          onSave={(title: string) =>
+            handleEditSave({title})
           }
+          redirectTo="/todos"
         />
       )}
 

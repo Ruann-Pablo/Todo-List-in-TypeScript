@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Modal.module.css";
 import { Input } from "../form/Input";
-import { SubmitButton } from "../form/SubmitButton";
+import { SubmitButton } from "../buttons/SubmitButton";
+import CloseButton from "../buttons/CloseButton";
 
 type Props = {
   open: boolean;
@@ -21,7 +22,7 @@ export default function ProjectModal({ open, initial, title = "Project", onClose
       setName(initial?.name ?? "");
       setDescription(initial?.description ?? "");
     } else {
-      // when open, set current initial values (useful for edit)
+      
       setName(initial?.name ?? "");
       setDescription(initial?.description ?? "");
     }
@@ -70,7 +71,7 @@ export default function ProjectModal({ open, initial, title = "Project", onClose
           <SubmitButton disabled={saving}>{saving ? "Saving..." : "Salvar"}</SubmitButton>
         </form>
 
-        <button className={styles.closeBtn} onClick={onClose} aria-label="close">×</button>
+        <CloseButton onClick={onClose} className={styles.closeBtn} />
       </div>
     </div>
   );

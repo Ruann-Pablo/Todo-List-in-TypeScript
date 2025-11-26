@@ -25,22 +25,6 @@
   color: var(--secundary-color);
 }
 
-.successMsg{
-  background-color: var(--background-sucess);
-  color: var(--background-secundary-color);
-  font-weight: 600;
-  padding: 10px;
-  border-radius: 10px;
-}
-
-.errorMsg{
-  background-color: var(--background-error);
-  color: var(--background-secundary-color);
-  font-weight: 600;
-  padding: 10px;
-  border-radius: 10px;
-}
-
 .closeButton {
   display: block;
   margin: 20px auto;

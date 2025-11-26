@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import styles from "./Modal.module.css";
 import { Input } from "../form/Input";
-import { CircleX } from "lucide-react";
+import CloseButton from "../buttons/CloseButton";
 import { useNavigate } from "react-router-dom";
+import { SubmitButton } from "../buttons/SubmitButton";
 
 interface ModalProps {
   open: boolean;
@@ -10,6 +11,7 @@ interface ModalProps {
   onSave: (taskName: string) => Promise<void>;
   Title: string;
   redirectTo: string;
+  initial?: {title: string}
 }
 
 export default function Modal({ open, onClose, onSave, Title, redirectTo }: ModalProps) {
@@ -44,18 +46,10 @@ export default function Modal({ open, onClose, onSave, Title, redirectTo }: Moda
             onChange={(e: any) => setTaskName(e.target.value)}
           />
 
-          <button 
-            type="submit" 
-            className={styles.saveButton} 
-            disabled={isDisabled}
-          >
-            Salvar
-          </button>
+          <SubmitButton>Criar</SubmitButton>
         </form>
 
-        <button className={styles.closeBtn} onClick={onClose}>
-          <CircleX />
-        </button>
+        <CloseButton onClick={onClose}/>
       </div>
     </div>
   );

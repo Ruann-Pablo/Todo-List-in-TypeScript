@@ -45,15 +45,21 @@ h2{
   cursor: pointer;
 }
 
-.closeBtn {
-  background-color: transparent;
-  color: var(--background-error);
-  width: 40px;
-  height: 40px;
-  text-align: center;
-  font-size: 20px;
-  margin: 12px auto 0 auto;
+.confirmDelete{
+  padding: 8px 14px; 
+  border-radius: 8; 
+  background: var(--background-error);
+  font-weight: 600;
+  border: none; 
+  border-radius: 8px;
+  margin: auto;
+}
+
+.cancel{
+  background-color: var(--background-button);
   border: none;
-  border-radius: 50%;
-  cursor: pointer;
+  border-radius: 8px;
+  padding: 10px;
+  font-weight: 600;
+ margin: auto; 
 }

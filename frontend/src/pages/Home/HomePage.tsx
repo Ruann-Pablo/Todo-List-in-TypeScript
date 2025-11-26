@@ -1,7 +1,7 @@
 import { useState } from "react";
 import SidebarLayout from "../../components/sidebar/SideBar";
 import Card from "../../components/card/Card";
-import Modal from "../../components/modal/Modal";
+import Modal from "../../components/modal/CreateModal";
 import styles from "./Home.module.css";
 import { ProjectService } from "../../services/ProjectServices";
 import { TodoService } from "../../services/TodoServices";
@@ -70,4 +70,3 @@ export default function HomePage() {
     </SidebarLayout>
   );
 }
-git 
