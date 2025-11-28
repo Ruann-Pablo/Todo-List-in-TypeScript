@@ -80,7 +80,7 @@ export default function ProjectsPage() {
                   title={p.name}
                   description={p.description ?? "Sem descrição"}
                 >
-                  {/* 🗑️ Botão excluir dentro do card */}
+                  {/*  Botão excluir dentro do card */}
                   <button
                     className={styles.deleteButton}
                     onClick={() => {

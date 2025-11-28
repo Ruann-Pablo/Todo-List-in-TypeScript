@@ -1,107 +1,117 @@
-/* Modal.module.css — substitua totalmente por este conteúdo */
-
+/* Modal.module.css - substituir arquivo existente */
 .overlay {
   position: fixed;
   inset: 0;
-  z-index: 1000; /* garante que fique sobre tudo */
-  background: rgba(0, 0, 0, 0.65); /* fundo mais escuro para esconder ícones embaixo */
+  background: rgba(0,0,0,0.45);
   display: flex;
   align-items: center;
   justify-content: center;
-
-  /* suaviza o fundo (pode exigir suporte do navegador) */
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
+  z-index: 9999;
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
 }
 
 .modal {
+  width: 100%;
+  max-width: 520px;
   background: var(--background-secundary-color);
   color: var(--secundary-color);
-  padding: 24px;
+  padding: 28px;
   border-radius: 12px;
-  width: 380px;               /* ligeiramente maior para conforto */
-  max-width: calc(100% - 40px);
+  box-shadow: 0 12px 40px rgba(3,22,63,0.25);
   display: flex;
   flex-direction: column;
   gap: 16px;
-
-  box-shadow: 0 20px 40px rgba(6, 10, 33, 0.35);
-  z-index: 1100;              /* garante que o modal fique acima do overlay (por segurança) */
-  position: relative;
 }
 
-h2 {
+/* Título centralizado */
+.modal h2 {
   margin: 0;
   text-align: center;
   color: var(--primary-color);
+  font-size: 1.6rem;
+  font-weight: 700;
 }
 
-/* Mensagem do modal */
-.modal p {
-  margin: 0;
-  margin-top: 8px;
-  line-height: 1.5;
-  color: #4b5563; /* tom legível */
-}
-
-/* Form/layout interno */
+/* Form */
 .form {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-.input {
+/* Inputs (aplicável a inputs e textarea dentro do modal) */
+.input,
+.textarea {
+  width: 100%;
+  background: var(--background-secundary-color);
+  border: 1px solid rgba(0,0,0,0.08);
+  padding: 12px 14px;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: var(--primary-color);
+  outline: none;
+  transition: box-shadow .12s ease, border-color .12s ease;
+}
+
+.input:focus,
+.textarea:focus {
+  box-shadow: 0 4px 18px rgba(59,68,246,0.08);
+  border-color: rgba(59,68,246,0.6);
+}
+
+/* textarea específico */
+.textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+/* Botões (ação principal dentro do modal) */
+.saveButton {
+  background: var(--background-button);
+  color: white;
+  font-weight: 700;
+  border: none;
   padding: 10px;
   border-radius: 8px;
-  border: 1px solid var(--background-secundary-color);
+  cursor: pointer;
+  width: 100%;
 }
 
-/* BOTÕES: removemos margin:auto e alinhamos à direita */
-.actionsRow {
-  display: flex;
-  gap: 12px;
-  margin-top: 16px;
-  justify-content: flex-end; /* botões alinhados à direita */
+/* Botões de confirmação e cancelar (usados pelo ConfirmModal) */
+.confirmDelete {
+  padding: 8px 14px;
+  background: var(--background-error);
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin: auto;
 }
 
-/* Estilos individuais dos botões */
 .cancel {
   background-color: var(--background-button);
+  color: white;
   border: none;
   border-radius: 8px;
   padding: 10px 14px;
   font-weight: 600;
   cursor: pointer;
-  color: #fff;
+  margin: auto;
 }
 
-.confirmDelete {
-  padding: 8px 14px;
-  background: var(--background-error);
-  font-weight: 600;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  color: #fff;
+/* Container de ações: alinha botões no final */
+.actionsRow {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 8px;
 }
 
-/* Pequena animação */
-.confirmDelete:hover,
-.cancel:hover {
-  transform: translateY(-2px);
-  transition: transform 0.12s ease;
-}
-
-/* Evita que SVGs ou elementos “flutuem” fora do fluxo do modal */
-.modal svg,
-.modal img {
-  display: inline-block;
-  vertical-align: middle;
-}
-
-/* Segurança: garante que nada do conteúdo abaixo (ex.: botões com z-index) apareça sobre o modal */
-* {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* Pequenas utilidades */
+.label {
+  font-size: 0.95rem;
+  color: var(--secundary-color);
+  margin-bottom: 6px;
 }

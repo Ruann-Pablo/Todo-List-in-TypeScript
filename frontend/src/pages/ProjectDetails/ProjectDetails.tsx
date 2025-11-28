@@ -8,6 +8,7 @@ import { TodoService, type TodoDTO } from "../../services/TodoServices";
 import AddTodoModal from "../../components/modal/AddTodoModal";
 import EditTodoModal from "../../components/modal/EditTodoModal";
 import ConfirmModal from "../../components/modal/ConfirmModal";
+import EditProjectModal from "../../components/modal/EditProjectModal";
 
 import { Pen, Trash, CheckCircle } from "lucide-react";
 
@@ -20,18 +21,21 @@ export default function ProjectDetailsPage() {
   const [todos, setTodos] = useState<TodoDTO[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // CREATE
+  // CREATE TODO
   const [openCreate, setOpenCreate] = useState(false);
 
-  // EDIT
+  // EDIT TODO
   const [editingTodo, setEditingTodo] = useState<TodoDTO | null>(null);
 
-  // DELETE
+  // DELETE TODO
   const [todoToDelete, setTodoToDelete] = useState<TodoDTO | null>(null);
   const [deleting, setDeleting] = useState(false);
 
   // DELETE PROJECT
   const [openDeleteProject, setOpenDeleteProject] = useState(false);
+
+  // EDIT PROJECT
+  const [openEditProject, setOpenEditProject] = useState(false);
 
   async function load() {
     try {
@@ -39,7 +43,7 @@ export default function ProjectDetailsPage() {
       setProject(p);
 
       const all = await TodoService.getAll();
-      setTodos(all.filter(t => t.projectId === projectId));
+      setTodos(all.filter((t) => t.projectId === projectId));
     } catch {
       alert("Erro ao carregar dados");
     } finally {
@@ -92,7 +96,7 @@ export default function ProjectDetailsPage() {
 
           <div className={styles.actions}>
             <button
-              onClick={() => navigate(`/projects/edit/${projectId}`)}
+              onClick={() => setOpenEditProject(true)}
               className={styles.editButton}
             >
               Editar
@@ -117,7 +121,6 @@ export default function ProjectDetailsPage() {
             todos.map((t) => (
               <div key={t.id} className={styles.todoRow}>
                 <div className={styles.todoTitle}>
-                  <span className={styles.dot}></span>
                   <span className={t.done ? styles.done : ""}>{t.title}</span>
                 </div>
 
@@ -193,6 +196,16 @@ export default function ProjectDetailsPage() {
           message="Tem certeza?"
           confirmLabel="Excluir"
           cancelLabel="Cancelar"
+        />
+
+        {/* MODAL DE EDITAR PROJETO */}
+        <EditProjectModal
+          open={openEditProject}
+          onClose={() => setOpenEditProject(false)}
+          projectId={projectId}
+          initialName={project.name}
+          initialDescription={project.description || ""}
+          onUpdated={load}
         />
       </div>
     </SidebarLayout>

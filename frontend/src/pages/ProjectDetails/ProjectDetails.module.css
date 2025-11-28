@@ -78,9 +78,9 @@
   box-shadow: 0 8px 30px rgba(3,22,63,0.06);
   margin-bottom: 22px;
 
-  width: 450px;      /* 🔥 Mais largo */
+  width: 450px;      
   margin-left: auto;
-  margin-right: auto; /* 🔥 Centralizado */
+  margin-right: auto; 
 }
 
 .todosTitle {
@@ -104,7 +104,7 @@
 .todoRow {
   display: flex;
   justify-content: space-between;
-  align-items: center; /* 🔥 Ícones alinhados */
+  align-items: center; 
   padding: 10px 6px;
   border-bottom: 1px solid #eee;
 }
@@ -151,7 +151,7 @@
 /* BOTÃO ADICIONAR PENDÊNCIA */
 .createTodoButton {
   margin-top: 20px;
-  width: 100%;         /* 🔥 Centralizado */
+  width: 100%;         
   background: var(--background-button);
   color: white;
   border: none;

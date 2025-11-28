@@ -13,12 +13,12 @@ type Props = {
 
 export default function ConfirmModal({
   open,
-  title = "Confirmar",
+  title = "Confirm",
   message,
   onClose,
   onConfirm,
-  confirmLabel = "Confirmar",
-  cancelLabel = "Cancelar",
+  confirmLabel = "Confirm",
+  cancelLabel = "Cancel",
   loading = false,
 }: Props) {
   if (!open) return null;
@@ -48,7 +48,7 @@ export default function ConfirmModal({
             disabled={loading}
             className={styles.confirmDelete}
           >
-            {loading ? "Deletando..." : confirmLabel}
+            {loading ? "Deleting..." : confirmLabel}
           </button>
         </div>
       </div>
