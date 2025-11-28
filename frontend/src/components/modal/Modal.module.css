@@ -1,10 +1,17 @@
+/* Modal.module.css — substitua totalmente por este conteúdo */
+
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000; /* garante que fique sobre tudo */
+  background: rgba(0, 0, 0, 0.65); /* fundo mais escuro para esconder ícones embaixo */
   display: flex;
   align-items: center;
   justify-content: center;
+
+  /* suaviza o fundo (pode exigir suporte do navegador) */
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
 }
 
 .modal {
@@ -12,17 +19,32 @@
   color: var(--secundary-color);
   padding: 24px;
   border-radius: 12px;
-  width: 350px;
+  width: 380px;               /* ligeiramente maior para conforto */
+  max-width: calc(100% - 40px);
   display: flex;
   flex-direction: column;
   gap: 16px;
+
+  box-shadow: 0 20px 40px rgba(6, 10, 33, 0.35);
+  z-index: 1100;              /* garante que o modal fique acima do overlay (por segurança) */
+  position: relative;
 }
 
-h2{
+h2 {
   margin: 0;
   text-align: center;
+  color: var(--primary-color);
 }
 
+/* Mensagem do modal */
+.modal p {
+  margin: 0;
+  margin-top: 8px;
+  line-height: 1.5;
+  color: #4b5563; /* tom legível */
+}
+
+/* Form/layout interno */
 .form {
   display: flex;
   flex-direction: column;
@@ -35,31 +57,51 @@ h2{
   border: 1px solid var(--background-secundary-color);
 }
 
-.saveButton {
-  background: var(--background-button);
-  color: var(--background-secundary-color);
-  font-weight: 600;
-  border: none;
-  padding: 10px;
-  border-radius: 8px;
-  cursor: pointer;
+/* BOTÕES: removemos margin:auto e alinhamos à direita */
+.actionsRow {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+  justify-content: flex-end; /* botões alinhados à direita */
 }
 
-.confirmDelete{
-  padding: 8px 14px; 
-  border-radius: 8; 
-  background: var(--background-error);
-  font-weight: 600;
-  border: none; 
-  border-radius: 8px;
-  margin: auto;
-}
-
-.cancel{
+/* Estilos individuais dos botões */
+.cancel {
   background-color: var(--background-button);
   border: none;
   border-radius: 8px;
-  padding: 10px;
+  padding: 10px 14px;
   font-weight: 600;
- margin: auto; 
+  cursor: pointer;
+  color: #fff;
+}
+
+.confirmDelete {
+  padding: 8px 14px;
+  background: var(--background-error);
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #fff;
+}
+
+/* Pequena animação */
+.confirmDelete:hover,
+.cancel:hover {
+  transform: translateY(-2px);
+  transition: transform 0.12s ease;
+}
+
+/* Evita que SVGs ou elementos “flutuem” fora do fluxo do modal */
+.modal svg,
+.modal img {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* Segurança: garante que nada do conteúdo abaixo (ex.: botões com z-index) apareça sobre o modal */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }

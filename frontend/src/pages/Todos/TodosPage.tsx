@@ -26,16 +26,20 @@ export default function TodosPage() {
   const { requireAuth } = useAuthGuard();
 
   async function loadTodos() {
-    setLoading(true);
-    try {
-      const data = await TodoService.getAll();
-      setTodos(data);
-    } catch (err) {
-      alert("Erro ao carregar pendências");
-    } finally {
-      setLoading(false);
-    }
+  setLoading(true);
+  try {
+    const data = await TodoService.getAll();
+
+    // ⛔ NÃO mostrar pendências de projetos
+    // ✔ Mostrar apenas pendências gerais
+    setTodos(data.filter((t) => !t.projectId));
+  } catch (err) {
+    alert("Erro ao carregar pendências");
+  } finally {
+    setLoading(false);
   }
+}
+
 
   useEffect(() => {
     loadTodos();

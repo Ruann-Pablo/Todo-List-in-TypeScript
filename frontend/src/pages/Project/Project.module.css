@@ -3,7 +3,7 @@
   padding: 40px;
 }
 
-/* Linha do título + botão */
+/* Cabeçalho */
 .headerRow {
   display: flex;
   justify-content: space-between;
@@ -15,7 +15,6 @@
   margin-right: auto;
 }
 
-/* Estilo do título igual ao restante do sistema */
 .title {
   text-align: left;
   font-size: 2rem;
@@ -23,7 +22,7 @@
   color: white;
 }
 
-/* Botão - Cria Novo Projeto */
+/* Botão Criar Projeto */
 .createButton {
   background: var(--background-button);
   color: white;
@@ -42,7 +41,7 @@
   transform: translateY(-2px);
 }
 
-/* Grid de projetos */
+/* GRID */
 .grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -51,7 +50,31 @@
   margin: 0 auto;
 }
 
-/* Botão "Acessar" */
+.cardWrapper {
+  position: relative;
+}
+
+/* Botão Excluir dentro do card */
+.deleteButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+
+  background: none;
+  border: none;
+  color: #b91c1c;
+  cursor: pointer;
+  padding: 4px;
+  z-index: 10;
+  transition: 0.2s ease;
+}
+
+.deleteButton:hover {
+  transform: scale(1.12);
+  opacity: 0.8;
+}
+
+/* Botão acessar */
 .accessButton {
   width: 100%;
   padding: 12px;

@@ -6,11 +6,19 @@ import { ProjectService } from "../../services/ProjectServices";
 import type { ProjectDTO } from "../../services/ProjectServices";
 import styles from "./Project.module.css";
 import Modal from "../../components/modal/CreateModal";
+import ConfirmModal from "../../components/modal/ConfirmModal";
+import { Trash } from "lucide-react";
 
 export default function ProjectsPage() {
   const [projects, setProjects] = useState<ProjectDTO[]>([]);
   const [loading, setLoading] = useState(true);
   const [openModal, setOpenModal] = useState(false);
+
+  // DELETE
+  const [openDelete, setOpenDelete] = useState(false);
+  const [projectToDelete, setProjectToDelete] = useState<ProjectDTO | null>(null);
+  const [deleting, setDeleting] = useState(false);
+
   const navigate = useNavigate();
 
   async function loadProjects() {
@@ -25,6 +33,23 @@ export default function ProjectsPage() {
     }
   }
 
+  async function deleteProject() {
+    if (!projectToDelete) return;
+
+    setDeleting(true);
+
+    try {
+      await ProjectService.delete(projectToDelete.id);
+      loadProjects();
+    } catch (err) {
+      alert("Erro ao excluir projeto");
+    } finally {
+      setDeleting(false);
+      setOpenDelete(false);
+      setProjectToDelete(null);
+    }
+  }
+
   useEffect(() => {
     loadProjects();
   }, []);
@@ -33,7 +58,7 @@ export default function ProjectsPage() {
     <SidebarLayout>
       <div className={styles.container}>
 
-        {/* 🔥 Título + Botão no canto direito */}
+        {/* Cabeçalho */}
         <div className={styles.headerRow}>
           <h1 className={styles.title}>Seus Projetos</h1>
 
@@ -50,18 +75,30 @@ export default function ProjectsPage() {
         ) : (
           <div className={styles.grid}>
             {projects.map((p) => (
-              <Card
-                key={p.id}
-                title={p.name}
-                description={p.description ?? "Sem descrição"}
-              >
-                <button
-                  className={styles.accessButton}
-                  onClick={() => navigate(`/projects/${p.id}`)}
+              <div key={p.id} className={styles.cardWrapper}>
+                <Card
+                  title={p.name}
+                  description={p.description ?? "Sem descrição"}
                 >
-                  Acessar
-                </button>
-              </Card>
+                  {/* 🗑️ Botão excluir dentro do card */}
+                  <button
+                    className={styles.deleteButton}
+                    onClick={() => {
+                      setProjectToDelete(p);
+                      setOpenDelete(true);
+                    }}
+                  >
+                    <Trash size={18} />
+                  </button>
+
+                  <button
+                    className={styles.accessButton}
+                    onClick={() => navigate(`/projects/${p.id}`)}
+                  >
+                    Acessar
+                  </button>
+                </Card>
+              </div>
             ))}
           </div>
         )}
@@ -75,8 +112,20 @@ export default function ProjectsPage() {
           onSave={async (projectName) => {
             await ProjectService.create({ name: projectName });
             setOpenModal(false);
-            loadProjects(); // atualiza lista automaticamente
+            loadProjects();
           }}
+        />
+
+        {/* Modal de exclusão */}
+        <ConfirmModal
+          open={openDelete}
+          onClose={() => setOpenDelete(false)}
+          onConfirm={deleteProject}
+          title="Excluir Projeto"
+          message="Tem certeza que deseja excluir este projeto?"
+          confirmLabel="Excluir"
+          cancelLabel="Cancelar"
+          loading={deleting}
         />
       </div>
     </SidebarLayout>

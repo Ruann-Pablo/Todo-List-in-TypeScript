@@ -5,7 +5,7 @@
   color: black;
 }
 
-/* ----- CARD DO PROJETO ----- */
+/* CARD DO PROJETO */
 .card {
   background: white;
   border-radius: 10px;
@@ -33,7 +33,7 @@
   font-size: 0.9rem;
 }
 
-/* ----- BOTÕES EDITAR / EXCLUIR ----- */
+/* BOTÕES EDITAR / EXCLUIR PROJETO */
 .actions {
   display: flex;
   gap: 10px;
@@ -70,13 +70,17 @@
   background: #fecaca;
 }
 
-/* ----- CARD DOS TODOS ----- */
+/* CARD DA LISTA DE PENDÊNCIAS */
 .todosList {
   background: white;
   border-radius: 10px;
-  padding: 16px;
-  box-shadow: 0 8px 30px rgba(3,22,63,0.04);
+  padding: 20px;
+  box-shadow: 0 8px 30px rgba(3,22,63,0.06);
   margin-bottom: 22px;
+
+  width: 450px;      /* 🔥 Mais largo */
+  margin-left: auto;
+  margin-right: auto; /* 🔥 Centralizado */
 }
 
 .todosTitle {
@@ -85,9 +89,22 @@
   color: black;
 }
 
+/* Bolinha */
+.dot {
+  width: 10px;
+  height: 10px;
+  background: #333;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 8px;
+  display: none;
+}
+
+/* LINHAS DAS PENDÊNCIAS */
 .todoRow {
   display: flex;
   justify-content: space-between;
+  align-items: center; /* 🔥 Ícones alinhados */
   padding: 10px 6px;
   border-bottom: 1px solid #eee;
 }
@@ -103,23 +120,54 @@
   color: black;
 }
 
-.todoDate {
-  font-size: 0.9rem;
-  color: #777;
-}
-
+/* Texto quando marcado como feito */
 .done {
   text-decoration: line-through;
   color: #999;
 }
 
-/* ----- TEXTO QUANDO NÃO HÁ TODOS ----- */
+/* Ícones Editar/Excluir/Ok */
+.iconBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  margin-left: 10px;
+  color: var(--secundary-color);
+  transition: 0.2s;
+}
+
+.iconBtn:hover {
+  opacity: 0.7;
+  transform: scale(1.1);
+}
+
+/* TEXTO QUANDO NÃO HÁ TODOS */
 .noTodos {
   margin-top: 10px;
   color: #777;
 }
 
-/* ----- BOTÃO VOLTAR ----- */
+/* BOTÃO ADICIONAR PENDÊNCIA */
+.createTodoButton {
+  margin-top: 20px;
+  width: 100%;         /* 🔥 Centralizado */
+  background: var(--background-button);
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: 0.2s;
+}
+
+.createTodoButton:hover {
+  opacity: 0.9;
+}
+
+/* BOTÃO VOLTAR */
 .backButton {
   width: 100%;
   background: var(--background-button);
@@ -134,24 +182,5 @@
 }
 
 .backButton:hover {
-  opacity: 0.9;
-}
-
-/* ----- BOTÃO ADICIONAR PENDÊNCIA EXISTENTE ----- */
-.createTodoButton {
-  margin-top: 15px;
-  width: 100%;
-  background: var(--background-button);
-  color: white;
-  border: none;
-  padding: 12px;
-  border-radius: 8px;
-  font-weight: 700;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: 0.2s;
-}
-
-.createTodoButton:hover {
   opacity: 0.9;
 }

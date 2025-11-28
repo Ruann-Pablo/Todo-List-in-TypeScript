@@ -1,174 +1,199 @@
-import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import SidebarLayout from "../../components/sidebar/SideBar";
-import { ProjectService, type ProjectDTO } from "../../services/ProjectServices";
-import { TodoService } from "../../services/TodoServices";
-
-import ProjectModal from "../../components/modal/ProjectModal";
-import ConfirmModal from "../../components/modal/ConfirmModal";
-import AddExistingTodoModal from "../../components/modal/AddExistingTodoModal";
-
 import styles from "./ProjectDetails.module.css";
+import { ProjectService } from "../../services/ProjectServices";
+import { TodoService, type TodoDTO } from "../../services/TodoServices";
 
-type TodoDTO = {
-  id: number;
-  title: string;
-  description?: string;
-  done: boolean;
-  createdAt: string;
-  projectId?: number | null;
-};
+import AddTodoModal from "../../components/modal/AddTodoModal";
+import EditTodoModal from "../../components/modal/EditTodoModal";
+import ConfirmModal from "../../components/modal/ConfirmModal";
 
-type ProjectWithTodos = ProjectDTO & {
-  todos?: TodoDTO[];
-};
+import { Pen, Trash, CheckCircle } from "lucide-react";
 
 export default function ProjectDetailsPage() {
-  const { id } = useParams<{ id: string }>();
+  const { id } = useParams();
+  const projectId = Number(id);
   const navigate = useNavigate();
 
-  const [project, setProject] = useState<ProjectWithTodos | null>(null);
+  const [project, setProject] = useState<any>(null);
   const [todos, setTodos] = useState<TodoDTO[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // modals
-  const [openEdit, setOpenEdit] = useState(false);
-  const [deleteOpen, setDeleteOpen] = useState(false);
+  // CREATE
+  const [openCreate, setOpenCreate] = useState(false);
+
+  // EDIT
+  const [editingTodo, setEditingTodo] = useState<TodoDTO | null>(null);
+
+  // DELETE
+  const [todoToDelete, setTodoToDelete] = useState<TodoDTO | null>(null);
   const [deleting, setDeleting] = useState(false);
 
-  const [openAddExisting, setOpenAddExisting] = useState(false);
+  // DELETE PROJECT
+  const [openDeleteProject, setOpenDeleteProject] = useState(false);
 
-  async function loadAll() {
-    if (!id) return;
-    setLoading(true);
-
+  async function load() {
     try {
-      const projectData = await ProjectService.getById(Number(id));
-      const allTodos = await TodoService.getAll();
+      const p = await ProjectService.getById(projectId);
+      setProject(p);
 
-      const projectTodos = allTodos.filter((t) => t.projectId === Number(id));
-
-      setProject(projectData);
-      setTodos(projectTodos);
-    } catch (err) {
-      console.error(err);
-      alert("Erro ao carregar dados do projeto");
+      const all = await TodoService.getAll();
+      setTodos(all.filter(t => t.projectId === projectId));
+    } catch {
+      alert("Erro ao carregar dados");
     } finally {
       setLoading(false);
     }
   }
 
   useEffect(() => {
-    loadAll();
-  }, [id]);
+    load();
+  }, []);
+
+  async function toggleDone(todo: TodoDTO) {
+    await TodoService.update(todo.id, { done: !todo.done });
+    load();
+  }
+
+  async function deleteTodo() {
+    if (!todoToDelete) return;
+
+    setDeleting(true);
+    await TodoService.delete(todoToDelete.id);
+    setDeleting(false);
+    setTodoToDelete(null);
+    load();
+  }
+
+  async function deleteProject() {
+    await ProjectService.delete(projectId);
+    navigate("/projects");
+  }
+
+  if (loading)
+    return (
+      <SidebarLayout>
+        <p>Carregando...</p>
+      </SidebarLayout>
+    );
 
   return (
     <SidebarLayout>
       <div className={styles.container}>
-        {loading ? (
-          <p>Carregando...</p>
-        ) : project ? (
-          <>
-            {/* CARD DO PROJETO */}
-            <div className={styles.card}>
-              <h2 className={styles.projectTitle}>{project.name}</h2>
-              <p className={styles.desc}>{project.description || "Sem descrição"}</p>
 
-              <div className={styles.meta}>
-                Criado em: {new Date(project.createdAt).toLocaleDateString()}
-              </div>
+        {/* CARD DO PROJETO */}
+        <div className={styles.card}>
+          <h2 className={styles.projectTitle}>{project.name}</h2>
+          <p className={styles.desc}>{project.description || "Sem descrição"}</p>
+          <p className={styles.meta}>
+            Criado em: {new Date(project.createdAt).toLocaleDateString()}
+          </p>
 
-              <div className={styles.actions}>
-                <button className={styles.editButton} onClick={() => setOpenEdit(true)}>
-                  Editar
-                </button>
-
-                <button className={styles.deleteButton} onClick={() => setDeleteOpen(true)}>
-                  Excluir
-                </button>
-              </div>
-            </div>
-
-            {/* LISTA DE PENDÊNCIAS DO PROJETO */}
-            <div className={styles.todosList}>
-              <h3 className={styles.todosTitle}>Pendências do projeto</h3>
-
-              {todos.length === 0 ? (
-                <p className={styles.noTodos}>Nenhuma pendência cadastrada neste projeto.</p>
-              ) : (
-                todos.map((todo) => (
-                  <div key={todo.id} className={styles.todoRow}>
-                    <div className={styles.todoTitle}>
-                      <input type="checkbox" checked={todo.done} readOnly />
-                      <span className={todo.done ? styles.done : ""}>
-                        {todo.title}
-                      </span>
-                    </div>
-
-                    <span className={styles.todoDate}>
-                      {new Date(todo.createdAt).toLocaleDateString()}
-                    </span>
-                  </div>
-                ))
-              )}
-
-              {/* BOTÃO: APENAS ADICIONAR PENDÊNCIA EXISTENTE */}
-              <button
-                className={styles.createTodoButton}
-                onClick={() => setOpenAddExisting(true)}
-              >
-                + Adicionar pendência existente
-              </button>
-            </div>
-
-            <button className={styles.backButton} onClick={() => navigate("/projects")}>
-              ← Voltar
+          <div className={styles.actions}>
+            <button
+              onClick={() => navigate(`/projects/edit/${projectId}`)}
+              className={styles.editButton}
+            >
+              Editar
             </button>
 
-            {/* MODAL: ADICIONAR PENDÊNCIA EXISTENTE */}
-            <AddExistingTodoModal
-              open={openAddExisting}
-              onClose={() => setOpenAddExisting(false)}
-              projectId={Number(id)}
-              onAdded={loadAll}
-            />
+            <button
+              className={styles.deleteButton}
+              onClick={() => setOpenDeleteProject(true)}
+            >
+              Excluir
+            </button>
+          </div>
+        </div>
 
-            {/* MODAL EDITAR PROJETO */}
-            <ProjectModal
-              open={openEdit}
-              initial={{ name: project.name, description: project.description ?? "" }}
-              title="Editar Projeto"
-              onClose={() => setOpenEdit(false)}
-              onSave={async (payload) => {
-                await ProjectService.update(Number(id), payload);
-                loadAll();
-              }}
-            />
+        {/* LISTA DE PENDÊNCIAS */}
+        <div className={styles.todosList}>
+          <h3 className={styles.todosTitle}>Pendências do projeto</h3>
 
-            {/* CONFIRMAR DELETAR */}
-            <ConfirmModal
-              open={deleteOpen}
-              title="Excluir projeto?"
-              message="Ao excluir o projeto, todas as pendências serão removidas também."
-              onClose={() => setDeleteOpen(false)}
-              confirmLabel="Excluir"
-              cancelLabel="Cancelar"
-              loading={deleting}
-              onConfirm={async () => {
-                setDeleting(true);
-                try {
-                  await ProjectService.delete(Number(id));
-                  navigate("/projects");
-                } finally {
-                  setDeleting(false);
-                }
-              }}
-            />
-          </>
-        ) : (
-          <p>Projeto não encontrado.</p>
+          {todos.length === 0 ? (
+            <p className={styles.noTodos}>Nenhuma pendência ainda.</p>
+          ) : (
+            todos.map((t) => (
+              <div key={t.id} className={styles.todoRow}>
+                <div className={styles.todoTitle}>
+                  <span className={styles.dot}></span>
+                  <span className={t.done ? styles.done : ""}>{t.title}</span>
+                </div>
+
+                <div>
+                  <button className={styles.iconBtn} onClick={() => toggleDone(t)}>
+                    <CheckCircle />
+                  </button>
+
+                  <button className={styles.iconBtn} onClick={() => setEditingTodo(t)}>
+                    <Pen />
+                  </button>
+
+                  <button
+                    className={styles.iconBtn}
+                    onClick={() => setTodoToDelete(t)}
+                  >
+                    <Trash />
+                  </button>
+                </div>
+              </div>
+            ))
+          )}
+
+          {/* CRIAR PENDÊNCIA */}
+          <button
+            className={styles.createTodoButton}
+            onClick={() => setOpenCreate(true)}
+          >
+            Criar nova pendência
+          </button>
+        </div>
+
+        {/* VOLTAR */}
+        <button className={styles.backButton} onClick={() => navigate("/projects")}>
+          Voltar
+        </button>
+
+        {/* MODAIS */}
+        <AddTodoModal
+          open={openCreate}
+          onClose={() => setOpenCreate(false)}
+          projectId={projectId}
+          onCreated={load}
+        />
+
+        {editingTodo && (
+          <EditTodoModal
+            open={!!editingTodo}
+            onClose={() => setEditingTodo(null)}
+            todo={editingTodo}
+            onUpdated={load}
+          />
         )}
+
+        {todoToDelete && (
+          <ConfirmModal
+            open={!!todoToDelete}
+            onClose={() => setTodoToDelete(null)}
+            onConfirm={deleteTodo}
+            title="Excluir pendência?"
+            message="Essa ação não pode ser desfeita."
+            confirmLabel="Excluir"
+            cancelLabel="Cancelar"
+            loading={deleting}
+          />
+        )}
+
+        <ConfirmModal
+          open={openDeleteProject}
+          onClose={() => setOpenDeleteProject(false)}
+          onConfirm={deleteProject}
+          title="Excluir Projeto"
+          message="Tem certeza?"
+          confirmLabel="Excluir"
+          cancelLabel="Cancelar"
+        />
       </div>
     </SidebarLayout>
   );
