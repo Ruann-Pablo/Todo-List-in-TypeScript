@@ -1,16 +1,13 @@
 import { useState, useEffect } from "react";
+
+import { TodoService } from "../../services/TodoServices";
+import type { EditTodoProps } from "../../types/componentsTypes/modal";
+
 import styles from "./Modal.module.css";
-import { TodoService, type TodoDTO } from "../../services/TodoServices";
 import Message from "../message/Message";
+import CloseButton from "../buttons/CloseButton";
 
-interface Props {
-  open: boolean;
-  onClose: () => void;
-  todo: TodoDTO;
-  onUpdated: () => void;
-}
-
-export default function EditTodoModal({ open, onClose, todo, onUpdated }: Props) {
+export default function EditTodoModal({ open, onClose, todo, onUpdated }: EditTodoProps) {
   const [title, setTitle] = useState(todo.title);
   const [description, setDescription] = useState(todo.description || "");
   const [message, setMessage] = useState("");
@@ -44,12 +41,6 @@ export default function EditTodoModal({ open, onClose, todo, onUpdated }: Props)
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-
-    if (description.length > 110) {
-      setMessage("A descrição ultrapassou o limite de 110 caracteres.");
-      setMessageType("error");
-      return;
-    }
 
     setSaving(true);
 
@@ -90,13 +81,11 @@ export default function EditTodoModal({ open, onClose, todo, onUpdated }: Props)
           </p>
 
           <div className={styles.actions}>
-            <button type="button" onClick={onClose} className={styles.cancelBtn}>
-              Cancelar
-            </button>
-
-            <button type="submit" disabled={saving} className={styles.saveBtn}>
+            <button type="submit" disabled={saving} className={styles.saveButton}>
               {saving ? "Salvando..." : "Salvar"}
             </button>
+
+            <CloseButton onClick={onClose}/>
           </div>
         </form>
       </div>

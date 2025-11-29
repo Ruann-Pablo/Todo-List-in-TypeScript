@@ -1,15 +1,7 @@
 import axios from "axios";
+import type { TodoDTO, CreateTodoDTO, UpdateTodoDTO } from "../types/todo";
 
 const API_URL = "http://localhost:4000/todos";
-
-export interface TodoDTO {
-  id: number;
-  title: string;
-  description?: string;
-  done: boolean;
-  createdAt: string;
-  projectId?: number | null; // ✅ obrigatório para poder filtrar e vincular
-}
 
 export const TodoService = {
   async getAll(): Promise<TodoDTO[]> {
@@ -28,7 +20,7 @@ export const TodoService = {
     return res.data;
   },
 
-  async create(data: { title: string; description?: string; projectId?: number | null }) {
+  async create(data: CreateTodoDTO): Promise<TodoDTO> {
     const token = localStorage.getItem("@token");
     const res = await axios.post(API_URL, data, {
       headers: { Authorization: `Bearer ${token}` },
@@ -36,7 +28,7 @@ export const TodoService = {
     return res.data;
   },
 
-  async update(id: number, data: { title?: string; description?: string; done?: boolean; projectId?: number | null }) {
+  async update(id: number, data: UpdateTodoDTO): Promise<TodoDTO> {
     const token = localStorage.getItem("@token");
     const res = await axios.put(`${API_URL}/${id}`, data, {
       headers: { Authorization: `Bearer ${token}` },
@@ -44,11 +36,10 @@ export const TodoService = {
     return res.data;
   },
 
-  async delete(id: number) {
+  async delete(id: number): Promise<void> {
     const token = localStorage.getItem("@token");
-    const res = await axios.delete(`${API_URL}/${id}`, {
+    await axios.delete(`${API_URL}/${id}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
-    return res.data;
   },
 };

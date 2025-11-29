@@ -1,13 +1,17 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
+import { ProjectService } from "../../services/ProjectServices";
+import type { ProjectDTO } from "../../types/projects";
+import { createProjectSchema } from "../../schemas/projectsSchemas";
+
+import { Trash, ArrowBigLeft } from "lucide-react";
+import styles from "./Project.module.css";
+
 import SidebarLayout from "../../components/sidebar/SideBar";
 import Card from "../../components/card/Card";
-import { ProjectService } from "../../services/ProjectServices";
-import type { ProjectDTO } from "../../services/ProjectServices";
-import styles from "./Project.module.css";
 import Modal from "../../components/modal/CreateModal";
 import ConfirmModal from "../../components/modal/ConfirmModal";
-import { Trash, ArrowBigLeft } from "lucide-react";
 
 export default function ProjectsPage() {
   const [projects, setProjects] = useState<ProjectDTO[]>([]);
@@ -60,6 +64,24 @@ export default function ProjectsPage() {
   const filtered = projects.filter(p =>
     p.name.toLowerCase().includes(query.toLowerCase())
   );
+
+  // Função de criação de projeto com validação
+  async function handleCreateProject(projectName: string) {
+    try {
+      // Validação com Zod
+      createProjectSchema.parse({ name: projectName });
+
+      const created = await ProjectService.create({ name: projectName });
+      setProjects(prev => [...prev, created]);
+      setOpenModal(false);
+    } catch (err: any) {
+      if (err?.errors) {
+        alert(err.errors[0].message);
+      } else {
+        alert("Erro ao criar projeto");
+      }
+    }
+  }
 
   return (
     <SidebarLayout>
@@ -133,17 +155,7 @@ export default function ProjectsPage() {
           onClose={() => setOpenModal(false)}
           Title="Criar novo projeto"
           redirectTo="/projects"
-          onSave={async (projectName) => {
-            try {
-              const created = await ProjectService.create({ name: projectName });
-              setOpenModal(false);
-
-              // Adiciona novo projeto no final da lista
-              setProjects(prev => [...prev, created]);
-            } catch {
-              alert("Erro ao criar projeto");
-            }
-          }}
+          onSave={handleCreateProject}
         />
 
         {/* Modal de exclusão */}

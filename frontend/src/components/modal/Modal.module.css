@@ -126,6 +126,14 @@
   margin-top: 8px;
 }
 
+.actions{
+  width: 100%;
+  display: flex;
+  margin: auto;
+  flex-direction: column;
+  gap: 30px;
+}
+
 /* Pequenas utilidades */
 .label {
   font-size: 0.95rem;

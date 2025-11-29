@@ -1,26 +1,8 @@
+import type { ConfirmProps } from "../../types/componentsTypes/modal";
+
 import styles from "./Modal.module.css";
 
-type Props = {
-  open: boolean;
-  title?: string;
-  message?: string;
-  onClose: () => void;
-  onConfirm: () => Promise<void> | void;
-  confirmLabel?: string;
-  cancelLabel?: string;
-  loading?: boolean;
-};
-
-export default function ConfirmModal({
-  open,
-  title = "Confirm",
-  message,
-  onClose,
-  onConfirm,
-  confirmLabel = "Confirm",
-  cancelLabel = "Cancel",
-  loading = false,
-}: Props) {
+export default function ConfirmModal({ open, title = "Confirm", message, onClose, onConfirm, confirmLabel = "Confirm", cancelLabel = "Cancel", loading = false,}: ConfirmProps) {
   if (!open) return null;
 
   async function handleConfirm() {

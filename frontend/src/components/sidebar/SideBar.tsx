@@ -1,20 +1,13 @@
 import { useState } from "react";
 import type { ReactNode } from "react";
-import styles from "./Sidebar.module.css";
-import { useAuthGuard } from "../../hooks/useAuthGuard";
 import { useNavigate } from "react-router-dom";
-import { getUser } from "../../schemas/isLoggedInSchemas";
-import {
-  User,
-  Package,
-  ChevronRight,
-  Bolt,
-  ListTodo
-} from "lucide-react";
 
-interface SidebarLayoutProps {
-  children: ReactNode;
-} 
+import styles from "./Sidebar.module.css";
+import { User, Package, ChevronRight, Bolt, ListTodo } from "lucide-react";
+
+import { useAuthGuard } from "../../hooks/useAuthGuard";
+import { getUser } from "../../schemas/isLoggedSchemas";
+import type { SidebarLayoutProps } from "../../types/componentsTypes/sideBar";
 
 export default function SidebarLayout({ children }: SidebarLayoutProps) {
   const [collapsed, setCollapsed] = useState(true);

@@ -1,13 +1,16 @@
 import {useState} from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useNavigate, Link } from 'react-router-dom';
+
 import { loginSchema, type LoginForm } from '../../schemas/AuthSchemas';
+import { authService } from '../../services/AuthServices';
+
+import style from './Login.module.css';
+
+import Message from "../../components/message/Message";
 import { Input } from '../../components/form/Input';
 import { SubmitButton } from '../../components/buttons/SubmitButton';
-import { authService } from '../../services/AuthServices';
-import { useNavigate, Link } from 'react-router-dom';
-import style from './Login.module.css';
-import Message from "../../components/message/Message";
 
 export default function Login() {
   const navigate = useNavigate();

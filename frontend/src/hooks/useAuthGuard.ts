@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { isLoggedInSchemas } from "../schemas/isLoggedInSchemas"; 
+import { isLoggedInSchemas } from "../schemas/IsLoggedSchemas"; 
 
 export function useAuthGuard() {
   const navigate = useNavigate();
@@ -7,7 +7,7 @@ export function useAuthGuard() {
   function requireAuth(action: () => void) {
     if (!isLoggedInSchemas()) {
       navigate("/users/login");
-      return;
+      return; 
     }
 
     action(); 

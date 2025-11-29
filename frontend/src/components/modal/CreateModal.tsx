@@ -1,20 +1,16 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+import type { CreateProps } from "../../types/componentsTypes/modal";
+
 import styles from "./Modal.module.css";
+
 import { Input } from "../form/Input";
 import CloseButton from "../buttons/CloseButton";
-import { useNavigate } from "react-router-dom";
 import { SubmitButton } from "../buttons/SubmitButton";
 
-interface ModalProps {
-  open: boolean;
-  onClose: () => void;
-  onSave: (taskName: string) => Promise<void>;
-  Title: string;
-  redirectTo: string;
-  initial?: {title: string}
-}
 
-export default function Modal({ open, onClose, onSave, Title, redirectTo }: ModalProps) {
+export default function Modal({ open, onClose, onSave, Title, redirectTo }: CreateProps) {
   const [taskName, setTaskName] = useState("");
   const navigate = useNavigate();
 

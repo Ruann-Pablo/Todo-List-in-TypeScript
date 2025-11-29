@@ -1,27 +1,16 @@
 import { useState, useEffect } from "react";
+
+import type { EditProjectProps } from "../../types/componentsTypes/modal";
+
 import styles from "./Modal.module.css";
 import { Input } from "../form/Input";
+
 import CloseButton from "../buttons/CloseButton";
 import { SubmitButton } from "../buttons/SubmitButton";
 import { ProjectService } from "../../services/ProjectServices";
 
-interface Props {
-  open: boolean;
-  onClose: () => void;
-  projectId: number;
-  initialName: string;
-  initialDescription: string;
-  onUpdated: () => void;
-}
-
-export default function EditProjectModal({
-  open,
-  onClose,
-  projectId,
-  initialName,
-  initialDescription,
-  onUpdated
-}: Props) {
+export default function EditProjectModal({ open, onClose, projectId, initialName, initialDescription, onUpdated
+}: EditProjectProps) {
   const [name, setName] = useState(initialName);
   const [description, setDescription] = useState(initialDescription);
 

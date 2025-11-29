@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
-import SidebarLayout from "../../components/sidebar/SideBar";
-import styles from "./Todos.module.css";
+import { useAuthGuard } from "../../hooks/useAuthGuard";
+import { Pen, Trash, ArrowBigLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+
+import type { TodoDTO } from "../../types/todo";
 import { TodoService } from "../../services/TodoServices";
-import type { TodoDTO } from "../../services/TodoServices";
+
+import styles from "./Todos.module.css";
+import SidebarLayout from "../../components/sidebar/SideBar";
 import Modal from "../../components/modal/CreateModal";
 import ConfirmModal from "../../components/modal/ConfirmModal";
-import { useAuthGuard } from "../../hooks/useAuthGuard";
-import { Pen, Trash, ArrowBigLeft} from "lucide-react"
-import { useNavigate } from "react-router-dom";
 
 export default function TodosPage() {
   const [todos, setTodos] = useState<TodoDTO[]>([]);
@@ -16,7 +18,6 @@ export default function TodosPage() {
   const [filter, setFilter] = useState<"all" | "done" | "undone">("all");
   const navigate = useNavigate();
 
-  // modals
   const [openCreate, setOpenCreate] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [editTodo, setEditTodo] = useState<TodoDTO | null>(null);
@@ -27,64 +28,52 @@ export default function TodosPage() {
   const { requireAuth } = useAuthGuard();
 
   async function loadTodos() {
-  setLoading(true);
-  try {
-    const data = await TodoService.getAll();
-
-    setTodos(data.filter((t) => !t.projectId));
-  } catch (err) {
-    alert("Erro ao carregar pendências");
-  } finally {
-    setLoading(false);
+    setLoading(true);
+    try {
+      const data = await TodoService.getAll();
+      setTodos(data.filter((t) => !t.projectId));
+    } catch {
+      alert("Erro ao carregar pendências");
+    } finally {
+      setLoading(false);
+    }
   }
-}
-
 
   useEffect(() => {
     loadTodos();
   }, []);
 
   const filtered = todos
-    .filter((t) => {
-      if (filter === "done") return t.done === true;
-      if (filter === "undone") return t.done === false;
-      return true;
-    })
-    .filter((t) => {
-      const q = query.toLowerCase();
-      return (
-        t.title.toLowerCase().includes(q) ||
-        (t.description ?? "").toLowerCase().includes(q)
-      );
-    });
+    .filter((t) =>
+      filter === "done" ? t.done : filter === "undone" ? !t.done : true
+    )
+    .filter((t) =>
+      t.title.toLowerCase().includes(query.toLowerCase()) ||
+      (t.description ?? "").toLowerCase().includes(query.toLowerCase())
+    );
 
-  // CREATE
-  async function handleCreate(payload: { title: string; description?: string }) {
-  try {
-    const created = await TodoService.create(payload);
-    setOpenCreate(false);
-
-    setTodos(prev => [...prev, created]);
-  } catch {
-    alert("Erro ao criar");
-  }
-}
-
-
-  // EDIT
-  async function handleEditSave(payload: { title: string;}) {
-    if (!editTodo) return;
+  async function handleCreate(title: string, description?: string) {
     try {
-      await TodoService.update(editTodo.id, payload);
-      setOpenEdit(false);
-      setEditTodo(null);
-      loadTodos();
-    } catch {
-      alert("Erro ao atualizar");
+      const created = await TodoService.create({ title, description });
+      setTodos(prev => [...prev, created]);
+      setOpenCreate(false);
+    } catch (err: any) {
+      alert(err.message || "Erro ao criar pendência");
     }
   }
 
-  // DELETE
+  async function handleEditSave(title: string) {
+    if (!editTodo) return;
+    try {
+      await TodoService.update(editTodo.id, { title });
+      setOpenEdit(false);
+      setEditTodo(null);
+      loadTodos();
+    } catch (err: any) {
+      alert(err.message || "Erro ao atualizar pendência");
+    }
+  }
+
   async function handleDeleteConfirm() {
     if (!todoToDelete) return;
     setDeleting(true);
@@ -94,17 +83,16 @@ export default function TodosPage() {
       setTodoToDelete(null);
       loadTodos();
     } catch {
-      alert("Erro ao excluir");
+      alert("Erro ao excluir pendência");
     } finally {
       setDeleting(false);
     }
   }
 
-  // 🔥 TOGGLE FEITO / NÃO FEITO
   async function toggleDone(todo: TodoDTO) {
     try {
       await TodoService.update(todo.id, { done: !todo.done });
-      await loadTodos();
+      loadTodos();
     } catch {
       alert("Erro ao mudar status");
     }
@@ -116,7 +104,6 @@ export default function TodosPage() {
         <div className={styles.panel}>
           <header className={styles.header}>
             <h2>Todas as pendências</h2>
-
             <div className={styles.controls}>
               <div className={styles.search}>
                 <input
@@ -125,7 +112,6 @@ export default function TodosPage() {
                   onChange={(e) => setQuery(e.target.value)}
                 />
               </div>
-
               <select
                 value={filter}
                 onChange={(e) => setFilter(e.target.value as any)}
@@ -153,7 +139,6 @@ export default function TodosPage() {
                 <th className={styles.actionsCol}></th>
               </tr>
             </thead>
-
             <tbody>
               {loading ? (
                 <tr>
@@ -166,50 +151,19 @@ export default function TodosPage() {
               ) : (
                 filtered.map((t) => (
                   <tr key={t.id}>
-                    <td>
-                      {t.title}
-                      {t.description && (
-                        <span className={styles.descLabel}>Descrição</span>
-                      )}
-                    </td>
-
+                    <td>{t.title}{t.description && <span className={styles.descLabel}>Descrição</span>}</td>
                     <td>{new Date(t.createdAt).toLocaleDateString()}</td>
-
                     <td className={styles.statusCol}>
-                      <button
-                        className={styles.statusBtn}
-                        onClick={() => toggleDone(t)}
-                      >
-                        {t.done ? (
-                          <span className={`${styles.badge} ${styles.badgeDone}`}>
-                            Feito
-                          </span>
-                        ) : (
-                          <span className={`${styles.badge} ${styles.badgeUndone}`}>
-                            N. Feito
-                          </span>
-                        )}
+                      <button className={styles.statusBtn} onClick={() => toggleDone(t)}>
+                        {t.done ? <span className={`${styles.badge} ${styles.badgeDone}`}>Feito</span>
+                        : <span className={`${styles.badge} ${styles.badgeUndone}`}>N. Feito</span>}
                       </button>
                     </td>
-
                     <td className={styles.actionsCol}>
-                      <button
-                        className={`${styles.iconBtn} ${styles.pen}`}
-                        onClick={() => {
-                          setEditTodo(t);
-                          setOpenEdit(true);
-                        }}
-                      >
+                      <button className={`${styles.iconBtn} ${styles.pen}`} onClick={() => { setEditTodo(t); setOpenEdit(true); }}>
                         <Pen />
                       </button>
-
-                      <button
-                        className={`${styles.iconBtn} ${styles.trash}`}
-                        onClick={() => {
-                          setTodoToDelete(t);
-                          setOpenDelete(true);
-                        }}
-                      >
+                      <button className={`${styles.iconBtn} ${styles.trash}`} onClick={() => { setTodoToDelete(t); setOpenDelete(true); }}>
                         <Trash />
                       </button>
                     </td>
@@ -219,51 +173,36 @@ export default function TodosPage() {
             </tbody>
           </table>
 
-          <button
-            className={styles.fab}
-            onClick={() => requireAuth(() => setOpenCreate(true))}
-          >
-            +
-          </button>
+          <button className={styles.fab} onClick={() => requireAuth(() => setOpenCreate(true))}>+</button>
         </div>
       </div>
 
-      <Modal
-        open={openCreate}
-        onClose={() => setOpenCreate(false)}
-        Title="Criar nova pendência"
-        onSave={(title: string, description?: string) =>
-          handleCreate({ title, description })
-        }
-        redirectTo="/todos"
-      />
-
-      {editTodo && (
-        <Modal
-          open={openEdit}
-          onClose={() => {
-            setOpenEdit(false);
-            setEditTodo(null);
-          }}
-          Title="Editar pendência"
-          initial={{
-            title: editTodo.title
-          }}
-          onSave={(title: string) =>
-            handleEditSave({title})
-          }
+      <Modal 
+        open={openCreate} 
+        onClose={() => setOpenCreate(false)} 
+          Title="Criar nova pendência" 
+          onSave={handleCreate} 
           redirectTo="/todos"
-        />
-      )}
-
-      <ConfirmModal
-        open={openDelete}
-        title="Deseja excluir esta pendência?"
-        message="Ao excluir você não verá mais este item."
-        onClose={() => setOpenDelete(false)}
-        onConfirm={handleDeleteConfirm}
-        confirmLabel="Excluir"
-        cancelLabel="Cancelar"
+      />
+      {editTodo && 
+      <Modal 
+      open={openEdit} 
+      onClose={() => { 
+        setOpenEdit(false); 
+        setEditTodo(null); }} 
+        Title="Editar pendência" 
+        initial={{ title: editTodo.title }} 
+        onSave={handleEditSave} redirectTo="/todos"
+      />}
+        
+      <ConfirmModal 
+        open={openDelete} 
+        title="Deseja excluir esta pendência?" 
+        message="Ao excluir você não verá mais este item." 
+        onClose={() => setOpenDelete(false)} 
+        onConfirm={handleDeleteConfirm} 
+        confirmLabel="Excluir" 
+        cancelLabel="Cancelar" 
         loading={deleting}
       />
     </SidebarLayout>

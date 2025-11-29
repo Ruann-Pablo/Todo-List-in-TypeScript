@@ -1,11 +1,14 @@
 import { useState } from "react";
-import SidebarLayout from "../../components/sidebar/SideBar";
-import Card from "../../components/card/Card";
-import Modal from "../../components/modal/CreateModal";
-import styles from "./Home.module.css";
+
 import { ProjectService } from "../../services/ProjectServices";
 import { TodoService } from "../../services/TodoServices";
 import { useAuthGuard } from "../../hooks/useAuthGuard";
+
+import styles from "./Home.module.css";
+
+import SidebarLayout from "../../components/sidebar/SideBar";
+import Card from "../../components/card/Card";
+import Modal from "../../components/modal/CreateModal";
 
 export default function HomePage() {
   const [openTaskModal, setOpenTaskModal] = useState(false);
