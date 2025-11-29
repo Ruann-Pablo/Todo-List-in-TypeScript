@@ -1,6 +1,9 @@
 .container {
-  width: 100%;
+  background-color: var(--background-secundary-color);
+  width: 70%;
+  border-radius: 24px;
   padding: 40px;
+  margin-top: 40px;
 }
 
 /* Cabeçalho */
@@ -19,7 +22,21 @@
   text-align: left;
   font-size: 2rem;
   font-weight: 700;
-  color: white;
+  color: var(--secundary-color);
+}
+
+.navButton{
+  display: flex;
+  gap: 50px;
+}
+
+.search input {
+  background-color: var(--background-secundary);
+  color: var(--secundary-color);
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--secundary-color);
+  width: 220px;
 }
 
 /* Botão Criar Projeto */
@@ -38,6 +55,18 @@
 
 .createButton:hover {
   background: #2c33c4;
+  transform: translateY(-2px);
+}
+
+.backButton {
+  background-color: transparent;
+  color: var(--background-error);
+  font-size: 2em;
+  border: none;
+  transition: 0.2s ease-in-out;
+}
+
+.backButton:hover{
   transform: translateY(-2px);
 }
 
@@ -62,7 +91,7 @@
 
   background: none;
   border: none;
-  color: #b91c1c;
+  color: var(--background-error);
   cursor: pointer;
   padding: 4px;
   z-index: 10;

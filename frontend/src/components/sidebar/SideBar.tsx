@@ -36,7 +36,7 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
 
   function handleNavigateToUsers() {
     requireAuth(() => {
-      navigate("/users");
+      navigate("/users/me");
     });
   }
 

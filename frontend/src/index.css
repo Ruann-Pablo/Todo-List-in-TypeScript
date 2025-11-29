@@ -29,6 +29,7 @@
 
 body{
   background-image: url('background.png');
+  background-color: var(--background-primary-color);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;

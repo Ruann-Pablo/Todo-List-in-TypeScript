@@ -21,7 +21,7 @@ export default function UserPage() {
   const [messageType, setMessageType] = useState<"success" | "error" | null>(null);
   const [openConfirmDelete, setOpenConfirmDelete] = useState(false);
   const [deleting, setDeleting] = useState(false);
-
+  const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
 
@@ -34,15 +34,18 @@ export default function UserPage() {
         setForm({
           name: data.name || "",
           email: data.email || "",
-          password: "" 
+          password: ""
         });
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false);
       }
     }
 
     loadUser();
   }, []);
+
 
   function handleChange(e: any) {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -113,6 +116,8 @@ export default function UserPage() {
       navigate("/");
     }, 1500);
   }
+
+  if (loading) return <p>Carregando...</p>;
 
   if (!user) return <Navigate to="/" replace />;
 

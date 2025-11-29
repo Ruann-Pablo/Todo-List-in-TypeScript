@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./Modal.module.css";
 import { Input } from "../form/Input";
 import CloseButton from "../buttons/CloseButton";
@@ -9,22 +9,21 @@ interface Props {
   open: boolean;
   onClose: () => void;
   projectId: number;
-  initialName?: string;
-  initialDescription?: string;
-  onUpdated?: () => void;
+  initialName: string;
+  initialDescription: string;
+  onUpdated: () => void;
 }
 
 export default function EditProjectModal({
   open,
   onClose,
   projectId,
-  initialName = "",
-  initialDescription = "",
-  onUpdated,
+  initialName,
+  initialDescription,
+  onUpdated
 }: Props) {
   const [name, setName] = useState(initialName);
   const [description, setDescription] = useState(initialDescription);
-  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     if (open) {
@@ -37,60 +36,40 @@ export default function EditProjectModal({
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!name.trim()) {
-      alert("Nome é obrigatório");
-      return;
-    }
 
-    setSaving(true);
-    try {
-      await ProjectService.update(projectId, {
-        name: name.trim(),
-        description: description.trim() || undefined,
-      });
+    await ProjectService.update(projectId, {
+      name,
+      description
+    });
 
-      if (onUpdated) onUpdated();
-      onClose();
-    } catch (err: any) {
-      console.error(err);
-      alert(err?.response?.data?.error || "Erro ao atualizar projeto");
-    } finally {
-      setSaving(false);
-    }
+    onUpdated();
+    onClose();
   }
 
   return (
     <div className={styles.overlay}>
       <div className={styles.modal}>
-        <h2>Projeto</h2>
+        <h2>Editar Projeto</h2>
 
         <form onSubmit={handleSubmit} className={styles.form}>
-          <label className={styles.label} htmlFor="project-name">Nome</label>
-          <input
-            id="project-name"
-            className={styles.input}
+          <Input
+            type="text"
+            label="Nome do Projeto"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Nome do projeto"
           />
 
-          <label className={styles.label} htmlFor="project-desc">Descrição</label>
-          <textarea
-            id="project-desc"
-            className={styles.textarea}
+          <Input
+            type="text"
+            label="Descrição"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            placeholder="Descrição do projeto (opcional)"
           />
 
-          <button type="submit" className={styles.saveButton} disabled={saving}>
-            {saving ? "Salvando..." : "Salvar"}
-          </button>
+          <SubmitButton>Salvar</SubmitButton>
         </form>
 
-        <div style={{ display: "flex", justifyContent: "center", marginTop: 6 }}>
-          <button onClick={onClose} className={styles.cancel}>Cancelar</button>
-        </div>
+        <CloseButton onClick={onClose} />
       </div>
     </div>
   );

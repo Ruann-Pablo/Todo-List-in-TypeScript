@@ -8,7 +8,7 @@
 .panel {
   width: 100%;
   max-width: 1100px;
-  background: white;
+  background: var(--background-secundary-color);
   border-radius: 20px;
   padding: 35px;
   box-shadow: 0 10px 40px rgba(0,0,0,0.05);
@@ -22,6 +22,7 @@
 }
 
 .header h2 {
+  color: var(--secundary-color);
   font-size: 1.8rem;
   font-weight: 700;
 }
@@ -47,6 +48,18 @@
   padding: 10px 14px;
   border-radius: 10px;
   border: 1px solid var(--secundary-color);
+}
+
+.backButton {
+  background-color: transparent;
+  color: var(--background-error);
+  font-size: 2em;
+  border: none;
+  transition: 0.2s ease-in-out;
+}
+
+.backButton:hover{
+  transform: translateY(-2px);
 }
 
 /* TABELA */

@@ -11,16 +11,16 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Rotas Públicas */}
+        {/* Rotas públicas */}
+        <Route path="/" element={<HomePage />} />
         <Route path="/users/login" element={<Login />} />
         <Route path="/users/register" element={<Register />} />
 
-        {/* Rotas Privadas */}
-        <Route path="/" element={<HomePage />} />
+        {/* Rotas acessíveis mas protegidas via requireAuth */}
         <Route path="/todos" element={<TodosPage />} />
         <Route path="/projects" element={<ProjectsPage />} />
-        <Route path="/users" element={<UserPage />} />
         <Route path="/projects/:id" element={<ProjectDetailsPage />} />
+        <Route path="/users/me" element={<UserPage />} />
       </Routes>
     </BrowserRouter>
   );

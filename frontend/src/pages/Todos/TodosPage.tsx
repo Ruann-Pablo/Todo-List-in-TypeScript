@@ -6,14 +6,15 @@ import type { TodoDTO } from "../../services/TodoServices";
 import Modal from "../../components/modal/CreateModal";
 import ConfirmModal from "../../components/modal/ConfirmModal";
 import { useAuthGuard } from "../../hooks/useAuthGuard";
-import { Pen, Trash} from "lucide-react"
-import { redirect } from "react-router-dom";
+import { Pen, Trash, ArrowBigLeft} from "lucide-react"
+import { useNavigate } from "react-router-dom";
 
 export default function TodosPage() {
   const [todos, setTodos] = useState<TodoDTO[]>([]);
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<"all" | "done" | "undone">("all");
+  const navigate = useNavigate();
 
   // modals
   const [openCreate, setOpenCreate] = useState(false);
@@ -30,8 +31,6 @@ export default function TodosPage() {
   try {
     const data = await TodoService.getAll();
 
-    // ⛔ NÃO mostrar pendências de projetos
-    // ✔ Mostrar apenas pendências gerais
     setTodos(data.filter((t) => !t.projectId));
   } catch (err) {
     alert("Erro ao carregar pendências");
@@ -61,14 +60,16 @@ export default function TodosPage() {
 
   // CREATE
   async function handleCreate(payload: { title: string; description?: string }) {
-    try {
-      await TodoService.create(payload);
-      setOpenCreate(false);
-      loadTodos();
-    } catch {
-      alert("Erro ao criar");
-    }
+  try {
+    const created = await TodoService.create(payload);
+    setOpenCreate(false);
+
+    setTodos(prev => [...prev, created]);
+  } catch {
+    alert("Erro ao criar");
   }
+}
+
 
   // EDIT
   async function handleEditSave(payload: { title: string;}) {
@@ -134,6 +135,12 @@ export default function TodosPage() {
                 <option value="done">Feitos</option>
                 <option value="undone">N. Feitos</option>
               </select>
+              <button
+                className={styles.backButton}
+                onClick={() => navigate("/")}
+              >
+                <ArrowBigLeft />
+              </button>
             </div>
           </header>
 
