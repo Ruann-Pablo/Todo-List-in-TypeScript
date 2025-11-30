@@ -1,11 +1,19 @@
 import { useState, useEffect } from "react";
 
 import { TodoService } from "../../services/TodoServices";
-import type { EditTodoProps } from "../../types/componentsTypes/modal";
+import type { TodoDTO } from "../../types/todo";
 
 import styles from "./Modal.module.css";
+
 import Message from "../message/Message";
 import CloseButton from "../buttons/CloseButton";
+
+interface EditTodoProps {
+  open: boolean;
+  onClose: () => void;
+  todo: TodoDTO;
+  onUpdated: () => void;
+}
 
 export default function EditTodoModal({ open, onClose, todo, onUpdated }: EditTodoProps) {
   const [title, setTitle] = useState(todo.title);

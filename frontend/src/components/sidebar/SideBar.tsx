@@ -7,7 +7,10 @@ import { User, Package, ChevronRight, Bolt, ListTodo } from "lucide-react";
 
 import { useAuthGuard } from "../../hooks/useAuthGuard";
 import { getUser } from "../../schemas/isLoggedSchemas";
-import type { SidebarLayoutProps } from "../../types/componentsTypes/sideBar";
+
+interface SidebarLayoutProps {
+  children: ReactNode;
+}
 
 export default function SidebarLayout({ children }: SidebarLayoutProps) {
   const [collapsed, setCollapsed] = useState(true);

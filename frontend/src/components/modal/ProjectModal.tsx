@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from "react";
 
-import type { ProjectProps } from "../../types/componentsTypes/modal";
-
 import styles from "./Modal.module.css";
 
 import { Input } from "../form/Input";
 import { SubmitButton } from "../buttons/SubmitButton";
 import CloseButton from "../buttons/CloseButton";
+
+type ProjectProps = {
+  open: boolean;
+  initial?: { name?: string; description?: string };
+  title?: string;
+  onClose: () => void;
+  onSave: (data: { name: string; description?: string }) => Promise<void> | void;
+};
 
 export default function ProjectModal({ open, initial, title = "Project", onClose, onSave }: ProjectProps) {
   const [name, setName] = useState(initial?.name ?? "");

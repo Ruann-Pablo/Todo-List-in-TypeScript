@@ -1,13 +1,19 @@
 import { useState } from "react";
 
-import type { AddTodoProps } from "../../types/componentsTypes/modal";
-
 import styles from "./Modal.module.css";
 
 import { Input } from "../form/Input";
 import CloseButton from "../buttons/CloseButton";
 import { SubmitButton } from "../buttons/SubmitButton";
 import { TodoService } from "../../services/TodoServices";
+
+interface AddTodoProps {
+  open: boolean;
+  onClose: () => void;
+  projectId?: number;
+  onCreated: () => void;
+}
+
 
 export default function AddTodoModal({ open, onClose, projectId, onCreated }: AddTodoProps) {
   const [title, setTitle] = useState("");

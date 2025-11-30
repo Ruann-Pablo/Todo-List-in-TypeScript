@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import type { CreateProps } from "../../types/componentsTypes/modal";
 
 import styles from "./Modal.module.css";
 
@@ -9,6 +8,14 @@ import { Input } from "../form/Input";
 import CloseButton from "../buttons/CloseButton";
 import { SubmitButton } from "../buttons/SubmitButton";
 
+interface CreateProps {
+  open: boolean;
+  onClose: () => void;
+  onSave: (taskName: string) => Promise<void>;
+  Title: string;
+  redirectTo: string;
+  initial?: {title: string}
+}
 
 export default function Modal({ open, onClose, onSave, Title, redirectTo }: CreateProps) {
   const [taskName, setTaskName] = useState("");
