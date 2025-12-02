@@ -2,7 +2,7 @@ import { useState } from "react";
 import type { ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 
-import styles from "Sidebar.module.css";
+import styles from "./Sidebar.module.css";
 import { User, Package, ChevronRight, Bolt, ListTodo } from "lucide-react";
 
 import { useAuthGuard } from "../../hooks/useAuthGuard";
