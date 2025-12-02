@@ -4,8 +4,10 @@
 	"main": "index.js",
 	"scripts": {
 		"build": "tsc",
-		"start": "node dist/index.js",
-		"dev": "nodemon --watch src --exec ts-node src/index.ts"
+		"start": "npm run migrate:deploy && node dist/index.js",
+		"dev": "nodemon --watch src --exec ts-node src/index.ts",
+		"postinstall": "prisma generate",
+		"migrate:deploy": "prisma migrate deploy"
 	},
 	"keywords": [],
 	"author": "",

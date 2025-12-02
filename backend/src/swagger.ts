@@ -5,7 +5,7 @@ const swaggerDocument = {
 		version: "1.0.0",
 		description: "API Todo com Users, Projects e Todos (JWT, Prisma, Zod)",
 	},
-	servers: [{ url: "http://localhost:4000" }],
+	servers: [{ url: "https://todo-list-in-typescript-3k8l.onrender.com/" }],
 	components: {
 		securitySchemes: {
 			bearerAuth: { type: "http", scheme: "bearer", bearerFormat: "JWT" },
