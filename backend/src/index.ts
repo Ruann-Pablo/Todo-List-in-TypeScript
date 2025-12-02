@@ -20,7 +20,7 @@ app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.get("/health", (_req, res) => res.json({ ok: true }));
 
-const port = process.env.PORT || 4000;
+const port = process.env.PORT;
 app.listen(port, () =>
 	console.log(
 		`Server running on http://localhost:${port} - docs: http://localhost:${port}/docs`
