@@ -2,7 +2,7 @@ import { useState } from "react";
 import type { ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 
-import styles from "./Sidebar.module.css";
+import styles from "./SideBar.module.css";
 import { User, Package, ChevronRight, Bolt, ListTodo } from "lucide-react";
 
 import { useAuthGuard } from "../../hooks/useAuthGuard";
@@ -38,18 +38,24 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
 
   return (
     <div className={styles.container}>
-      <aside onClick={() => setCollapsed(!collapsed)}
-      className={`${styles.sidebar} ${collapsed ? styles.collapsed : styles.expanded}`}>
-        <button className={styles.toggleButton} onClick={() => navigate('/')}>
+      <aside
+        onClick={() => setCollapsed(!collapsed)}
+        className={`${styles.sidebar} ${collapsed ? styles.collapsed : styles.expanded}`}
+      >
+        <button className={styles.toggleButton} onClick={() => navigate("/")}>
           <Bolt />
-          {!collapsed && <span className={`${styles.toggleText} ${styles.textTodo}`}>Todo-List</span>}
+          {!collapsed && (
+            <span className={`${styles.toggleText} ${styles.textTodo}`}>Todo-List</span>
+          )}
         </button>
 
         <nav className={styles.menuIcons}>
           <button className={styles.iconBtn} onClick={handleNavigateToTodos}>
-            <ListTodo />{!collapsed && <span className={styles.toggleText}>Pendências</span>}
-            </button>
-          <button className={styles.iconBtn} onClick={handleNavigateToProjects}><Package />
+            <ListTodo />
+            {!collapsed && <span className={styles.toggleText}>Pendências</span>}
+          </button>
+          <button className={styles.iconBtn} onClick={handleNavigateToProjects}>
+            <Package />
             {!collapsed && <span className={styles.toggleText}>Projetos</span>}
           </button>
         </nav>
