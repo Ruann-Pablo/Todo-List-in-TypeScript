@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:4000",
+  baseURL: "https://todo-list-in-type-script.vercel.app/",
 });
 
 api.interceptors.request.use((config) => {
@@ -26,6 +26,5 @@ export const userService = {
   async deleteUser(id: number) {
     const response = await api.delete(`/users/${id}`);
     return response.data;
-  }
-
+  },
 };
