@@ -28,3 +28,4 @@ const CloseButton: React.FC<CloseButtonProps> = ({ to = "/", onClick, className 
 };
 
 export default CloseButton;
+
