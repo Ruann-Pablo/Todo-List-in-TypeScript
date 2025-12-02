@@ -11,7 +11,10 @@ dotenv.config();
 const app = express();
 app.use(
 	cors({
-		origin: ["https://todo-list-in-type-script.vercel.app/"],
+		origin: [
+			"http://localhost:3000",
+			"https://todo-list-in-typescript-3k8l.onrender.com",
+		],
 		credentials: true,
 	})
 );

@@ -1,7 +1,7 @@
 import axios from "axios";
 import type { TodoDTO, CreateTodoDTO, UpdateTodoDTO } from "../types/todo";
 
-const API_URL = "https://todo-list-in-typescript-3k8l.onrender.com/todos";
+const API_URL = "https://todo-list-in-type-script.vercel.app/todos";
 
 export const TodoService = {
   async getAll(): Promise<TodoDTO[]> {

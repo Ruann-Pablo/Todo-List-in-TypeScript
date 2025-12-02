@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || " https://todo-list-in-typescript-3k8l.onrender.com/",
+  baseURL: "https://todo-list-in-type-script.vercel.app/",
 });
 
 api.interceptors.request.use((config) => {

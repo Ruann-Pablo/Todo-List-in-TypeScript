@@ -1,7 +1,7 @@
 import axios from "axios";
 import type { ProjectDTO, CreateProjectDTO, UpdateProjectDTO } from "../types/projects";
 
-const API_URL = "https://todo-list-in-typescript-3k8l.onrender.com/projects";
+const API_URL = "https://todo-list-in-type-script.vercel.app/projects";
 
 export const ProjectService = {
   async getAll(): Promise<ProjectDTO[]> {

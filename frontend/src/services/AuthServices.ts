@@ -1,7 +1,7 @@
 import axios from "axios";
 import type { LoginUser, RegisterUser, LoginResponse } from "../types/users";
 
-const apiUrl = "https://todo-list-in-typescript-3k8l.onrender.com";
+const apiUrl = "https://todo-list-in-type-script.vercel.app/";
 
 export const authService = {
   async login(users: LoginUser): Promise<LoginResponse> {
