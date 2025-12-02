@@ -11,10 +11,7 @@ dotenv.config();
 const app = express();
 app.use(
 	cors({
-		origin: [
-			"http://localhost:5173",
-			"https://todo-list-in-type-script.vercel.app/",
-		],
+		origin: ["https://todo-list-in-type-script.vercel.app/"],
 		credentials: true,
 	})
 );
@@ -28,5 +25,5 @@ app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.get("/health", (_req, res) => res.json({ ok: true }));
 
-const port = process.env.PORT || 4000;
+const port = process.env.PORT;
 app.listen(port, () => console.log(`Server running on port ${port}`));
